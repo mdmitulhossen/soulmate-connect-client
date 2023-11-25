@@ -3,6 +3,7 @@ import MatrimonyContainer from "../../components/shared/MatrimonyContainer";
 import BannerSection from "./BannerSection";
 import Title from "../../components/Header/Title";
 import ProfileCard from "../../components/cards/ProfileCard";
+import WorkingProcessSection from "./WorkingProcessSection";
 
 
 
@@ -14,7 +15,7 @@ const Home = () => {
 
             {/* profile section */}
             <Box
-             sx={{py:2}}
+                sx={{ py: 2 }}
             >
                 {/* Title */}
                 <Box sx={{ py: 5 }}>
@@ -27,36 +28,20 @@ const Home = () => {
                 <MatrimonyContainer>
                     <Box
                         display="grid"
-                        gridTemplateColumns="repeat(12, 1fr)"
                         gap={2}
                         sx={{
-                            border: 1
+                            border: 1,
+                            gridTemplateColumns: { sz: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(4, 1fr)' },
                         }}
                     >
-                        <Box gridColumn="span 3">
-                            <ProfileCard name='md mitul hossain' />
-                        </Box>
-                        <Box gridColumn="span 3">
-                            <ProfileCard />
-                        </Box>
-                        <Box gridColumn="span 3">
-                            <ProfileCard />
-                        </Box>
-                        <Box gridColumn="span 3">
-                            <ProfileCard />
-                        </Box>
-                        <Box gridColumn="span 3">
-                            <ProfileCard />
-                        </Box>
-                        <Box gridColumn="span 3">
-                            <ProfileCard />
-                        </Box>
-                        <Box gridColumn="span 3">
-                            <ProfileCard />
-                        </Box>
-                        <Box gridColumn="span 3">
-                            <ProfileCard />
-                        </Box>
+                        {
+                            [1, 2, 3, 4, 5, 6, 7, 8].map((item, index) => {
+                               return ( <Box key={index} sx={{ gridColumn: { sz: 'span 1' },display:'flex',justifyContent:'center' }}>
+                                    <ProfileCard name='md mitul hossain' />
+                                </Box>)
+                            })
+                        }
+
                     </Box>
 
 
@@ -70,13 +55,21 @@ const Home = () => {
 
             {/* How it Works */}
             <Box
-            sx={{pt:8}}
+                sx={{ pt: 8 }}
             >
                 <Title
                     title='How it Works'
                     subtitle='MOMENTS'
                 />
             </Box>
+
+            <MatrimonyContainer>
+                <Box
+                    sx={{ pt: 8, pb: 3 }}
+                >
+                    <WorkingProcessSection />
+                </Box>
+            </MatrimonyContainer>
 
         </Box>
     );

@@ -6,8 +6,8 @@ const ProfileCard = ({name}) => {
     return (
         <Box
             sx={{
-                // width: '250px',
-                width:'100%',
+                width: {sz:'300px',sm:'100%'},
+                // width:'100%',
                 height: '100%',
               
             }}
