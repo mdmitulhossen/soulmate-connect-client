@@ -5,6 +5,7 @@ import Title from "../../components/Header/Title";
 import ProfileCard from "../../components/cards/ProfileCard";
 import WorkingProcessSection from "./WorkingProcessSection";
 import WhyUsSecrion from "./WhyUsSecrion";
+import CounterSection from "./CounterSection";
 
 
 
@@ -79,6 +80,7 @@ const Home = () => {
                 sx={{ pt: 8,pb:8 }}
             >
                <WhyUsSecrion/>
+               <CounterSection/>
             </Box>
         </Box>
     );
