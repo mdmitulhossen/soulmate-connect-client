@@ -24,5 +24,10 @@ export const theme = createTheme({
                 'Poppins', 'sans-serif'
             ].join(','),
         },
+        subtitle: {
+            fontFamily: [
+                'Cinzel Decorative', 'cursive'
+            ].join(','),
+        },
     },
 });

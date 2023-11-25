@@ -5,7 +5,7 @@ import * as React from 'react';
 // import CssBaseline from '@mui/material/CssBaseline';
 import CloseIcon from '@mui/icons-material/Close';
 import MenuIcon from '@mui/icons-material/Menu';
-import { Avatar, Container } from '@mui/material';
+import { Avatar } from '@mui/material';
 import Button from '@mui/material/Button';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';

@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import bannerVideo from '../../assets/Home/banner/bg-video.mp4'
+import bannerVideoPoster from '../../assets/Home/banner/video-poster.jpg'
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
@@ -26,6 +27,7 @@ const BannerSection = () => {
                     objectFit: "cover",
 
                 }}
+                poster={bannerVideoPoster}
 
             >
                 <source src={bannerVideo} type="video/mp4" />
