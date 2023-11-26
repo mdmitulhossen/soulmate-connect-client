@@ -9,6 +9,9 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { IamLooking, age, division } from "./options";
 import BiodataCard from "../../components/cards/BiodataCard";
 
+import bioDataBg from '../../assets/biodata/bioDataBg.png'
+import bioDataBg2 from '../../assets/biodata/bioData3.png'
+
 const selectStyles = {
     control: (base, state) => ({
         ...base,
@@ -31,7 +34,72 @@ const BiodatasPage = () => {
     return (
         <Box
             component='div'
+            sx={{
+                position: 'relative',
+                width: '100%',
+                height: '100%',
+            }}
         >
+            {/* flower bg top left */}
+            <Box
+                component='img'
+                src={bioDataBg}
+                alt='user'
+                sx={{
+                    width: '200px',
+                    position: 'absolute',
+                    top: '200px',
+                    left: 0,
+                    zIndex: 20,
+                    opacity: 0.5
+                }}
+            />
+            {/* flower bg top right */}
+            <Box
+                component='img'
+                src={bioDataBg}
+                alt='user'
+                sx={{
+                    width: '200px',
+                    position: 'absolute',
+                    top: '200px',
+                    right: 0,
+                    zIndex: 20,
+                    opacity: 0.5,
+                    transform: 'scaleX(-1)' 
+                }}
+            />
+            {/* love bg bottom right */}
+            <Box
+                component='img'
+                src={bioDataBg2}
+                alt='user'
+                sx={{
+                    width: '100px',
+                    position: 'absolute',
+                    bottom: '20px',
+                    right: '20px',
+                    zIndex: 20,
+                    opacity: 0.3,
+                    // transform: 'scaleX(-1)' 
+                }}
+            />
+            {/* love bg bottom left */}
+            <Box
+                component='img'
+                src={bioDataBg2}
+                alt='user'
+                sx={{
+                    width: '100px',
+                    position: 'absolute',
+                    bottom: '20px',
+                    left: '20px',
+                    zIndex: 20,
+                    opacity: 0.3,
+                    transform: 'scaleX(-1)' 
+                }}
+            />
+                
             <Breadcrumb />
             <Box
                 component='div'

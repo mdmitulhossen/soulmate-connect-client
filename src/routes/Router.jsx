@@ -4,6 +4,8 @@ import Home from "../pages/home/Home";
 import LoginPage from "../pages/auth/LoginPage";
 import RagisterPage from "../pages/auth/RagisterPage";
 import BiodatasPage from "../pages/biodatas/BiodatasPage";
+import AboutUsPage from "../pages/about/AboutUsPage";
+import ContactUsPage from "../pages/contact/ContactUsPage";
 
 
 const Router = createBrowserRouter([
@@ -21,11 +23,11 @@ const Router = createBrowserRouter([
         },
         {
           path: "/aboutUs",
-          element: <div>About Us</div>,
+          element: <AboutUsPage/>,
         },
         {
           path: "/contactUs",
-          element: <div>Contact Us</div>,
+          element: <ContactUsPage/>,
         },
         {
           path: "/login",
