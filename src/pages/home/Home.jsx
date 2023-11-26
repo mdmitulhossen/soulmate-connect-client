@@ -86,9 +86,19 @@ const Home = () => {
 
             {/* Tesrimonial section */}
             <Box
-                sx={{ pt: 8,pb:8 }}
+                sx={{ pt: 4,pb:8 }}
             >
-              <TestimonialSection/>
+                <Title
+                      title='Happy Story'
+                      subtitle='OUR'
+                 />
+                 <MatrimonyContainer>
+                      <Box
+                            sx={{ pt:6 }}
+                      >
+                            <TestimonialSection />
+                      </Box>
+                 </MatrimonyContainer>
             </Box>
 
 
