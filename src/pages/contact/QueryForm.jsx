@@ -64,7 +64,7 @@ const QueryForm = () => {
                             }}
                         >
                             <span style={{ fontWeight: 500, fontSize: '30px' }}>Now</span> <br />
-                            Find your life partner <br />
+                            Contact To Us <br />
                             <span style={{ fontWeight: 500, fontSize: '30px' }}>Easy and fast.</span>
                         </Typography>
                         <Box
