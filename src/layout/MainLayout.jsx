@@ -1,17 +1,23 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../components/Header/Navbar";
-import { Box } from "@mui/material";
+import { Box, Paper } from "@mui/material";
+import Footer from "../components/footer/Footer";
 
 const MainLayout = () => {
     return (
         <div>
-            <Box
+            <Paper
+            elevation={2}
                 component='nav'
-                sx={{position:'sticky',top:0,zIndex:1000,width:'100%',bgcolor:'#FEFBF3',}}
+                sx={{ position: 'sticky', top: 0, zIndex: 1000, width: '100%', bgcolor: '#FEFBF3', }}
             >
                 <Navbar />
-            </Box>
+            </Paper>
             <Outlet />
+            {/* Footer */}
+            <Box>
+                <Footer />
+            </Box>
         </div>
     );
 };

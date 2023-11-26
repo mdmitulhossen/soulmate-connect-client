@@ -12,7 +12,7 @@ import { Box, Button, Divider } from '@mui/material';
 import MatrimonyContainer from '../shared/MatrimonyContainer';
 import Logo from '../logo/Logo';
 import { NavLink } from 'react-router-dom';
-import footerImage from '../../assets/footer3.jpg'
+import footerImage from '../../assets/footer.jpg'
 
 const Footer = () => {
     return (
@@ -104,7 +104,7 @@ const Footer = () => {
                     </Box>
 
                     <Box>
-                        <Typography variant="paragraph"  sx={{textAlign:'center',color:'#66451c',opacity:'0.5',fontSize:'16px'}}>
+                        <Typography variant="paragraph" component='p'  sx={{textAlign:'center',color:'#66451c',opacity:'0.5',fontSize:'16px'}}>
                             © {new Date().getFullYear()} SomeCompany, Inc. All rights reserved.
                         </Typography>
                     </Box>

@@ -102,10 +102,6 @@ const Home = () => {
                 </MatrimonyContainer>
             </Box>
 
-            {/* Footer */}
-            <Box>
-                <Footer />
-            </Box>
         </Box>
     );
 };

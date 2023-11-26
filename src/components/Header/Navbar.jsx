@@ -148,7 +148,6 @@ function Navbar(props) {
 
                         {/* menu button */}
                         <IconButton
-                            disableGutters
                             color="inherit"
                             aria-label="open drawer"
                             edge="start"

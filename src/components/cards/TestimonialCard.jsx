@@ -12,6 +12,7 @@ const TestimonialCard = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 flexDirection: { sz: 'column', md: 'row' },
+                // mr: {xl:'20px',sz:'0px'}, for marquee
             }}
         >
             <Paper elevation={2}

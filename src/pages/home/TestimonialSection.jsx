@@ -8,6 +8,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Box, Button, Typography } from "@mui/material";
 import SwiperNavButtons from "../../components/button/SwiperNavButtons";
+import Marquee from "react-fast-marquee";
 
 const TestimonialSection = () => {
     return (
@@ -39,6 +40,17 @@ const TestimonialSection = () => {
                 {/* <SwiperNavButtons /> */}
             </Swiper>
 
+            {/* marquee */}
+            {/* <Marquee autoFill={true} speed={60} gradient={true} style={{gap:'10px'}}>
+                <TestimonialCard />
+                <TestimonialCard />
+                <TestimonialCard />
+                <TestimonialCard />
+                <TestimonialCard />
+                <TestimonialCard />
+                <TestimonialCard />
+                <TestimonialCard />
+            </Marquee> */}
 
             <Box
                 sx={{
