@@ -7,6 +7,7 @@ import WorkingProcessSection from "./WorkingProcessSection";
 import WhyUsSecrion from "./WhyUsSecrion";
 import CounterSection from "./CounterSection";
 import TestimonialSection from "./TestimonialSEction";
+import Footer from "../../components/footer/Footer";
 
 
 
@@ -78,30 +79,33 @@ const Home = () => {
 
             {/* Why Choose Us */}
             <Box
-                sx={{ pt: 8,pb:8 }}
+                sx={{ pt: 8, pb: 8 }}
             >
-               <WhyUsSecrion/>
-               <CounterSection/>
+                <WhyUsSecrion />
+                <CounterSection />
             </Box>
 
             {/* Tesrimonial section */}
             <Box
-                sx={{ pt: 4,pb:8 }}
+                sx={{ pt: 4, pb: 8 }}
             >
                 <Title
-                      title='Happy Story'
-                      subtitle='OUR'
-                 />
-                 <MatrimonyContainer>
-                      <Box
-                            sx={{ pt:6 }}
-                      >
-                            <TestimonialSection />
-                      </Box>
-                 </MatrimonyContainer>
+                    title='Happy Story'
+                    subtitle='OUR'
+                />
+                <MatrimonyContainer>
+                    <Box
+                        sx={{ pt: 6 }}
+                    >
+                        <TestimonialSection />
+                    </Box>
+                </MatrimonyContainer>
             </Box>
 
-
+            {/* Footer */}
+            <Box>
+                <Footer />
+            </Box>
         </Box>
     );
 };
