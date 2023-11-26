@@ -6,6 +6,7 @@ import ProfileCard from "../../components/cards/ProfileCard";
 import WorkingProcessSection from "./WorkingProcessSection";
 import WhyUsSecrion from "./WhyUsSecrion";
 import CounterSection from "./CounterSection";
+import TestimonialSection from "./TestimonialSEction";
 
 
 
@@ -82,6 +83,15 @@ const Home = () => {
                <WhyUsSecrion/>
                <CounterSection/>
             </Box>
+
+            {/* Tesrimonial section */}
+            <Box
+                sx={{ pt: 8,pb:8 }}
+            >
+              <TestimonialSection/>
+            </Box>
+
+
         </Box>
     );
 };
