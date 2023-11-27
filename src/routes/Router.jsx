@@ -13,6 +13,7 @@ import UserHomeDashboard from "../pages/userDashboard/UserHomeDashboard";
 import EditBioData from "../pages/userDashboard/editBiodata/EditBioData";
 import ViewBioData from "../pages/userDashboard/viewBiodata/ViewBioData";
 import MyContactRequestPage from "../pages/userDashboard/myContactRequest/MyContactRequestPage";
+import MyFavouritePage from "../pages/userDashboard/myFavouritePage/MyFavouritePage";
 
 
 const Router = createBrowserRouter([
@@ -76,7 +77,7 @@ const Router = createBrowserRouter([
         },
         {
           path:'favourite',
-          element:<h1>favourite</h1>
+          element:<MyFavouritePage/>
         }
       ]
     }
