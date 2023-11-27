@@ -7,6 +7,7 @@ import BiodatasPage from "../pages/biodatas/BiodatasPage";
 import AboutUsPage from "../pages/about/AboutUsPage";
 import ContactUsPage from "../pages/contact/ContactUsPage";
 import BiodataDetailsPage from "../pages/biodatadetails/BiodataDetailsPage";
+import CheckoutPage from "../pages/checkout/CheckoutPage";
 
 
 const Router = createBrowserRouter([
@@ -33,6 +34,10 @@ const Router = createBrowserRouter([
         {
           path: "/contactUs",
           element: <ContactUsPage/>,
+        },
+        {
+          path: "/checkout/:id",
+          element: <CheckoutPage/>,
         },
         {
           path: "/login",

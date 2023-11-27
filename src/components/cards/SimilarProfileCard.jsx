@@ -32,7 +32,7 @@ const SimilarProfileCard = () => {
               21 years Old
             </Typography>
             <Paper
-            elevation={3}
+            elevation={1}
             sx={{
                 p:1,
                 position: 'absolute',

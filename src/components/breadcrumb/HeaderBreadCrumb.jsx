@@ -1,8 +1,10 @@
 import { Box, Button, Typography } from "@mui/material";
 import breadCrumbBg from '../../assets/breadcrumbBg.jpg';
 import SwipeLeftAltIcon from '@mui/icons-material/SwipeLeftAlt';
+import PropTypes from 'prop-types';
 
-const HeaderBreadCrumb = ({name,id}) => {
+
+const HeaderBreadCrumb = ({header,id}) => {
     return (
         <Box
             component='div'
@@ -61,7 +63,7 @@ const HeaderBreadCrumb = ({name,id}) => {
                         mb:2
                     }}
                 >
-                    Details Of {name}
+                    {header.toUpperCase()}
                 </Typography>
                 <Button 
                 endIcon={<SwipeLeftAltIcon/>}
@@ -77,5 +79,11 @@ const HeaderBreadCrumb = ({name,id}) => {
         </Box>
     );
 };
+
+HeaderBreadCrumb.propTypes = {
+    header: PropTypes.string,
+    id: PropTypes.string,
+};
+
 
 export default HeaderBreadCrumb;

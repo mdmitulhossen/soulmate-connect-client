@@ -23,7 +23,7 @@ const BiodataDetailsPage = () => {
                 pb: 10,
             }}
         >
-            <HeaderBreadCrumb name='developer' id='1' />
+            <HeaderBreadCrumb header='biodata details' id='1' />
             <MatrimonyContainer>
                 <Box
                     component='div'
