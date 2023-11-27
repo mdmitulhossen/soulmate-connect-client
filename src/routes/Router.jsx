@@ -8,6 +8,9 @@ import AboutUsPage from "../pages/about/AboutUsPage";
 import ContactUsPage from "../pages/contact/ContactUsPage";
 import BiodataDetailsPage from "../pages/biodatadetails/BiodataDetailsPage";
 import CheckoutPage from "../pages/checkout/CheckoutPage";
+import UserDashboard from "../layout/UserDashboard";
+import UserHomeDashboard from "../pages/userDashboard/UserHomeDashboard";
+import EditBioData from "../pages/userDashboard/editBiodata/EditBioData";
 
 
 const Router = createBrowserRouter([
@@ -49,6 +52,32 @@ const Router = createBrowserRouter([
         }
       ],
     },
+    {
+      path:'/dashboard/user',
+      element:<UserDashboard/>,
+      children:[
+        {
+          index:true,
+          element:<UserHomeDashboard/>
+        },
+        {
+          path:'editbio',
+          element:<EditBioData/>
+        },
+        {
+          path:'viewBioData',
+          element:<h1>view bio</h1>
+        },
+        {
+          path:'contactRequest',
+          element:<h1>contact request</h1>
+        },
+        {
+          path:'favourite',
+          element:<h1>favourite</h1>
+        }
+      ]
+    }
   ]);
 
 export default Router;
