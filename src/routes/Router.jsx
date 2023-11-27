@@ -11,6 +11,7 @@ import CheckoutPage from "../pages/checkout/CheckoutPage";
 import UserDashboard from "../layout/UserDashboard";
 import UserHomeDashboard from "../pages/userDashboard/UserHomeDashboard";
 import EditBioData from "../pages/userDashboard/editBiodata/EditBioData";
+import ViewBioData from "../pages/userDashboard/viewBiodata/ViewBioData";
 
 
 const Router = createBrowserRouter([
@@ -66,7 +67,7 @@ const Router = createBrowserRouter([
         },
         {
           path:'viewBioData',
-          element:<h1>view bio</h1>
+          element:<ViewBioData/>
         },
         {
           path:'contactRequest',

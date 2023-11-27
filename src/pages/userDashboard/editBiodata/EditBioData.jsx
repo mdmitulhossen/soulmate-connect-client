@@ -34,7 +34,7 @@ const EditBioData = () => {
             partnerWeight: form.get('partnerWeight') || {},
         }
 
-        console.log("edit bio==>", data)
+        console.log("edit bio==>", Object.keys(data))
 
     }
 
