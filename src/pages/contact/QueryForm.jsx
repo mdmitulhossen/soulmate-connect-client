@@ -4,18 +4,17 @@ import loginBg from '../../assets/Login/loginBg.jpg'
 import loginCouple from '../../assets/Login/login-couple.png'
 import Marquee from "react-fast-marquee";
 import margueImg from '../../assets/Login/loginMarque.png'
-import { useNavigate } from "react-router-dom";
+
 
 const QueryForm = () => {
-    const navigate = useNavigate()
+
     const handleRigister = (e) => {
         e.preventDefault();
         const name = e.target.name.value;
         const email = e.target.email.value;
-        const password = e.target.password.value;
-        const imageURL = e.target.imageURL.value;
+        const message = e.target.message.value;
 
-        const newUser = { name, email, password, imageURL };
+        const newUser = { name, email, message };
         console.log(newUser);
     }
     return (

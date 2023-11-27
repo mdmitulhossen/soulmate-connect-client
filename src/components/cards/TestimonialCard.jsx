@@ -70,7 +70,7 @@ const TestimonialCard = () => {
                             px: '10px',
                         }}
                     >
-                        <Rating name="read-only" value='4' readOnly />
+                        <Rating name="read-only" value={4} readOnly />
                     </Box>
                 </Box>
 

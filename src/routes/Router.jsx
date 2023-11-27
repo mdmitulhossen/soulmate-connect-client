@@ -6,6 +6,7 @@ import RagisterPage from "../pages/auth/RagisterPage";
 import BiodatasPage from "../pages/biodatas/BiodatasPage";
 import AboutUsPage from "../pages/about/AboutUsPage";
 import ContactUsPage from "../pages/contact/ContactUsPage";
+import BiodataDetailsPage from "../pages/biodatadetails/BiodataDetailsPage";
 
 
 const Router = createBrowserRouter([
@@ -20,6 +21,10 @@ const Router = createBrowserRouter([
         {
           path: "/biodatas",
           element: <BiodatasPage/>,
+        },
+        {
+          path: "/biodata/:id",
+          element: <BiodataDetailsPage/>,
         },
         {
           path: "/aboutUs",

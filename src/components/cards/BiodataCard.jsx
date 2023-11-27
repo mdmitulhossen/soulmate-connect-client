@@ -12,9 +12,26 @@ const BiodataCard = () => {
                     gap: '25px',
                     alignItems: 'center',
                     flexWrap: {sz:'wrap',md:'nowrap'},
-
+                    position: 'relative',
                 }}
             >
+                <Typography
+                    variant='title'
+                    component='p'
+                    sx={{
+                        fontWeight: 'bold',
+                        color: '#66451c',
+                        fontSize: '14px',
+                        position: 'absolute',
+                        top: '5px',
+                        right: '5px',
+                        bgcolor: '#fff',
+                        padding: '5px',
+                        px: 1
+                    }}
+                >
+                    BID 134
+                </Typography>
                 <Box
                     component='img'
                     src={userImage}

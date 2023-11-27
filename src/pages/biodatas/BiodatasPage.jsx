@@ -296,7 +296,7 @@ const BiodatasPage = () => {
                                 width: { lg: '70%', sz: '100%' },
                                 height: '100vh',
                                 // minHeight:'100vh',
-                                overflowY: 'scroll',
+                                overflowY: 'auto',
                                 '::-webkit-scrollbar': {
                                     width: '4px'
                                 },
