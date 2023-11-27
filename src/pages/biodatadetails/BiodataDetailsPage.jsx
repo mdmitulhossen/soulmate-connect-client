@@ -1,4 +1,4 @@
-import { Box, Chip, Divider, IconButton, Typography } from "@mui/material";
+import { Box, Button, Chip, Divider, IconButton, Typography } from "@mui/material";
 import MatrimonyContainer from "../../components/shared/MatrimonyContainer";
 
 import ImagePreview from "./ImagePreview";
@@ -7,11 +7,16 @@ import ContactBioDataPage from "./ContactBioDataPage";
 import PersonalInfo from "./PersonalInfo";
 import HeaderBreadCrumb from "../../components/breadcrumb/HeaderBreadCrumb";
 import SimilarProfileCard from "../../components/cards/SimilarProfileCard";
+import { NavLink } from "react-router-dom";
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 
 
 
 const BiodataDetailsPage = () => {
+    const premium = true;
+    const favourite = false;
     return (
         <Box
             sx={{
@@ -26,13 +31,13 @@ const BiodataDetailsPage = () => {
                         display: 'flex',
                         gap: '25px',
                         pt: 10,
-                        flexWrap: {sz:'wrap',lg:'nowrap'}
+                        flexWrap: { sz: 'wrap', lg: 'nowrap' }
                     }}
                 >
                     <Box
                         component='div'
                         sx={{
-                            width: {lg:'65%'},
+                            width: { lg: '65%' },
                         }}
                     >
                         {/* Image preview */}
@@ -44,7 +49,14 @@ const BiodataDetailsPage = () => {
                                 pt: 4
                             }}
                         >
-                            <Box>
+                            <Box
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    mt: 3,
+                                }}
+                            >
                                 <Box>
                                     <Typography
                                         variant="title"
@@ -92,6 +104,30 @@ const BiodataDetailsPage = () => {
                                     </Box>
                                 </Box>
                                 {/* Todo: favourite and request btn */}
+                                <Box>
+                                    <Button
+                                        sx={{
+                                            background: '#66451c',
+                                            color: '#fff',
+                                            fontWeight: 600,
+                                            fontSize: '12px',
+                                            '&:hover': {
+                                                background: '#e58f27',
+                                                color: '#fff',
+                                            },
+                                        }}
+                                        component={NavLink}
+                                        to='#'
+                                        variant='contained'
+                                    >
+                                        <Typography variant="paragraph"> Request For Contact</Typography>
+                                    </Button>
+                                    <IconButton sx={{ ml: 2 }}>
+                                        {
+                                            favourite ? <FavoriteIcon sx={{ color: '#66451c' }} fontSize="large" /> : <FavoriteBorderIcon sx={{ color: '#66451c' }} fontSize="large" />
+                                        }
+                                    </IconButton>
+                                </Box>
                             </Box>
                             {/* Some card age,height,city,work */}
                             <Box
@@ -136,24 +172,27 @@ const BiodataDetailsPage = () => {
 
                             <Divider />
                             {/* contact information for premimum member */}
-                            <Box
-                                sx={{
-                                    py: 3
-                                }}
-                            >  <Typography
-                                component='p'
-                                variant="paragraph"
-                                sx={{
-                                    fontWeight: 600,
-                                    fontSize: '22px',
-                                    color: '#66451c',
-                                    mb: 2
-                                }}
-                            >
-                                    CONTACT INFO
-                                </Typography>
-                                <ContactBioDataPage />
-                            </Box>
+                            {
+                                premium &&
+                                <Box
+                                    sx={{
+                                        py: 3
+                                    }}
+                                >  <Typography
+                                    component='p'
+                                    variant="paragraph"
+                                    sx={{
+                                        fontWeight: 600,
+                                        fontSize: '22px',
+                                        color: '#66451c',
+                                        mb: 2
+                                    }}
+                                >
+                                        CONTACT INFO
+                                    </Typography>
+                                    <ContactBioDataPage />
+                                </Box>
+                            }
 
                             <Divider />
                             {/* personal information */}
@@ -181,7 +220,7 @@ const BiodataDetailsPage = () => {
                     <Box
                         component='div'
                         sx={{
-                            width: {lg:'35%',sz:'100%'}
+                            width: { lg: '35%', sz: '100%' }
                         }}
                     >
                         <Typography
@@ -196,7 +235,7 @@ const BiodataDetailsPage = () => {
                         >
                             Similar Profile
                         </Typography>
-                        <Divider/>
+                        <Divider />
                         <Box
                             component='div'
                             sx={{
@@ -208,9 +247,9 @@ const BiodataDetailsPage = () => {
                                 gridTemplateColumns: 'repeat(2,1fr)',
                             }}
                         >
-                        <SimilarProfileCard />
-                        <SimilarProfileCard />
-                        <SimilarProfileCard />
+                            <SimilarProfileCard />
+                            <SimilarProfileCard />
+                            <SimilarProfileCard />
                         </Box>
                     </Box>
                 </Box>
