@@ -40,7 +40,7 @@ const PersonalInfoLine = ({level,value}) => {
                         // opacity:0.8
                     }}
                 >
-                    {value}
+                    {value?value:'N/A'}
                 </Typography>
             </Box>
         </div>

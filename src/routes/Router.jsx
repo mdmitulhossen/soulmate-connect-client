@@ -12,6 +12,7 @@ import UserDashboard from "../layout/UserDashboard";
 import UserHomeDashboard from "../pages/userDashboard/UserHomeDashboard";
 import EditBioData from "../pages/userDashboard/editBiodata/EditBioData";
 import ViewBioData from "../pages/userDashboard/viewBiodata/ViewBioData";
+import MyContactRequestPage from "../pages/userDashboard/myContactRequest/MyContactRequestPage";
 
 
 const Router = createBrowserRouter([
@@ -71,7 +72,7 @@ const Router = createBrowserRouter([
         },
         {
           path:'contactRequest',
-          element:<h1>contact request</h1>
+          element:<MyContactRequestPage/>
         },
         {
           path:'favourite',
