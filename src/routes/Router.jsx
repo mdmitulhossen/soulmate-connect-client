@@ -14,6 +14,11 @@ import EditBioData from "../pages/userDashboard/editBiodata/EditBioData";
 import ViewBioData from "../pages/userDashboard/viewBiodata/ViewBioData";
 import MyContactRequestPage from "../pages/userDashboard/myContactRequest/MyContactRequestPage";
 import MyFavouritePage from "../pages/userDashboard/myFavouritePage/MyFavouritePage";
+import AdminLayout from "../layout/AdminLayout";
+import AdminDashboard from "../pages/admin/AdminDashboard";
+import ManageUser from "../pages/admin/ManageUser";
+import ManagePremium from "../pages/admin/ManagePremium";
+import ManageContactRequest from "../pages/admin/ManageContactRequest";
 
 
 const Router = createBrowserRouter([
@@ -78,6 +83,28 @@ const Router = createBrowserRouter([
         {
           path:'favourite',
           element:<MyFavouritePage/>
+        }
+      ]
+    },
+    {
+      path:'/dashboard/admin',
+      element:<AdminLayout/>,
+      children:[
+        {
+          index:true,
+          element:<AdminDashboard/>
+        },
+        {
+          path:'manageUser',
+          element:<ManageUser/>
+        },
+        {
+          path:'approvedPremium',
+          element:<ManagePremium/>
+        },
+        {
+          path:'approvedContactRequest',
+          element:<ManageContactRequest/>
         }
       ]
     }

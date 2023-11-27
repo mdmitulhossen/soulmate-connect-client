@@ -7,13 +7,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Chip, MenuItem, Select } from '@mui/material';
+import { Box, Chip, MenuItem, Select, Typography } from '@mui/material';
 import CustomTable from '../../../components/shared/CustomTable';
 
 const columns = [
-  { id: 'B_ID', label: 'B_ID', minWidth: 100, align: 'center'},
-  { id: 'name', label: 'Name', minWidth: 170, align: 'center'},
-  { id: 'email', label: 'Email', minWidth: 170, align: 'center'},
+  { id: 'B_ID', label: 'B_ID', minWidth: 100, align: 'center' },
+  { id: 'name', label: 'Name', minWidth: 170, align: 'center' },
+  { id: 'email', label: 'Email', minWidth: 170, align: 'center' },
   { id: 'phone', label: 'Mobile No', minWidth: 170, align: 'center' },
   { id: 'status', label: 'Status', minWidth: 170, align: 'center' }, // Moved 'Status' before 'Action'
   { id: 'action', label: 'Action', minWidth: 170, align: 'center' },
@@ -48,9 +48,22 @@ const MyContactRequestPage = () => {
   };
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'auto' }}>
-       <CustomTable columns={columns} rows={rows} handleDeleteClick={handleDeleteClick} handleStatusChange={handleStatusChange}/>
-    </Paper>
+    <Box>
+      <Typography
+        component='p'
+        variant='paragraph'
+        sx={{
+          fontSize: '24px',
+          fontWeight: 600,
+          mb: 3,
+        }}
+      >
+        My Contact Request
+      </Typography>
+      <Paper sx={{ width: '100%', overflow: 'auto' }}>
+        <CustomTable columns={columns} rows={rows} handleDeleteClick={handleDeleteClick} handleStatusChange={handleStatusChange} />
+      </Paper>
+    </Box>
   );
 }
 

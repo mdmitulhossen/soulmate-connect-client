@@ -22,7 +22,7 @@ const CustomTable = ({ columns, rows,handleDeleteClick,handleStatusChange }) => 
         setPage(0);
     };
     return (
-        <div>
+        <div style={{border:'1px dashed #000'}}>
             <TableContainer sx={{ maxHeight: 440 }}>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead sx={{ bgColor: 'red' }}>

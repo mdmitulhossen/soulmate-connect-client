@@ -1,11 +1,11 @@
-import { Paper } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import CustomTable from "../../../components/shared/CustomTable";
 
 const columns = [
-    { id: 'B_ID', label: 'B_ID', minWidth: 100,align: 'center' },
-    { id: 'name', label: 'Name', minWidth: 170,align: 'center' },
-    { id: 'permanentAddress', label: 'Permanent Address', minWidth: 170,align: 'center' },
-    { id: 'occupation', label: 'Occupation', minWidth: 170,align: 'center' },
+    { id: 'B_ID', label: 'B_ID', minWidth: 100, align: 'center' },
+    { id: 'name', label: 'Name', minWidth: 170, align: 'center' },
+    { id: 'permanentAddress', label: 'Permanent Address', minWidth: 170, align: 'center' },
+    { id: 'occupation', label: 'Occupation', minWidth: 170, align: 'center' },
     { id: 'action', label: 'Action', minWidth: 170, align: 'center' },
 ];
 
@@ -22,9 +22,22 @@ const MyFavouritePage = () => {
     };
 
     return (
-        <Paper sx={{ width: '100%', overflow: 'auto' }}>
-            <CustomTable columns={columns} rows={rows} handleDeleteClick={handleDeleteClick} />
-        </Paper>
+        <Box>
+            <Typography
+                component='p'
+                variant='paragraph'
+                sx={{
+                    fontSize: '24px',
+                    fontWeight: 600,
+                    mb: 3,
+                }}
+            >
+                My Favourite
+            </Typography>
+            <Paper sx={{ width: '100%', overflow: 'auto' }}>
+                <CustomTable columns={columns} rows={rows} handleDeleteClick={handleDeleteClick} />
+            </Paper>
+        </Box>
     );
 };
 
