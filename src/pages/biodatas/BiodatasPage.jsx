@@ -11,6 +11,8 @@ import BiodataCard from "../../components/cards/BiodataCard";
 
 import bioDataBg from '../../assets/biodata/bioDataBg.png'
 import bioDataBg2 from '../../assets/biodata/bioData3.png'
+import Spinner from "../../components/Spinner/Spinner";
+import DataNotFound from "../DataNotFound";
 
 const selectStyles = {
     control: (base, state) => ({
@@ -66,7 +68,7 @@ const BiodatasPage = () => {
                     right: 0,
                     zIndex: 20,
                     opacity: 0.5,
-                    transform: 'scaleX(-1)' 
+                    transform: 'scaleX(-1)'
                 }}
             />
             {/* love bg bottom right */}
@@ -96,10 +98,10 @@ const BiodatasPage = () => {
                     left: '20px',
                     zIndex: 20,
                     opacity: 0.3,
-                    transform: 'scaleX(-1)' 
+                    transform: 'scaleX(-1)'
                 }}
             />
-                
+
             <Breadcrumb />
             <Box
                 component='div'
@@ -331,7 +333,10 @@ const BiodatasPage = () => {
                                 </Typography>
                             </Box>
                             <Divider />
-                            <Box
+                            <Box>
+                                <DataNotFound/>
+                            </Box>
+                            {/* <Box
                                 sx={{
                                     pt: 4,
                                     px: 4,
@@ -346,7 +351,7 @@ const BiodatasPage = () => {
                                 <BiodataCard />
                                 <BiodataCard />
                                 <BiodataCard />
-                            </Box>
+                            </Box> */}
 
                         </Box>
                     </Box>
