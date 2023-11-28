@@ -333,10 +333,10 @@ const BiodatasPage = () => {
                                 </Typography>
                             </Box>
                             <Divider />
-                            <Box>
+                            {/* <Box>
                                 <DataNotFound/>
-                            </Box>
-                            {/* <Box
+                            </Box> */}
+                            <Box
                                 sx={{
                                     pt: 4,
                                     px: 4,
@@ -351,7 +351,7 @@ const BiodatasPage = () => {
                                 <BiodataCard />
                                 <BiodataCard />
                                 <BiodataCard />
-                            </Box> */}
+                            </Box>
 
                         </Box>
                     </Box>

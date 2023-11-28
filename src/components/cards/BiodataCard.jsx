@@ -1,7 +1,9 @@
 import { Box, Chip, Divider, Paper, Typography } from '@mui/material';
 import userImage from '../../assets/userSaruk.jpeg';
+import { useNavigate } from 'react-router-dom';
 
 const BiodataCard = () => {
+    const navigate = useNavigate()
     return (
         <>
             <Paper
@@ -84,7 +86,7 @@ const BiodataCard = () => {
                         }}
                     >
                         <Chip label="Send Interest" variant="outlined" onClick={() => console.log('click')} sx={{ fontWeight: 600, color: '#718FA0', fontSize: '12px' }}/>
-                        <Chip label="View Profile" variant="outlined" onClick={() => console.log('click')} sx={{ fontWeight: 600, color: '#718FA0', fontSize: '12px' }}/>
+                        <Chip label="View Profile" variant="outlined" onClick={() => navigate('/biodata/1')} sx={{ fontWeight: 600, color: '#718FA0', fontSize: '12px' }}/>
                     </Box>
                 </Box>
 

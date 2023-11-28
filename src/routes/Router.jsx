@@ -20,6 +20,7 @@ import ManageUser from "../pages/admin/ManageUser";
 import ManagePremium from "../pages/admin/ManagePremium";
 import ManageContactRequest from "../pages/admin/ManageContactRequest";
 import NotFoundPage from "../pages/NotFoundPage";
+import PrivateRoute from "./PrivateRoute";
 
 
 const Router = createBrowserRouter([
@@ -38,7 +39,7 @@ const Router = createBrowserRouter([
         },
         {
           path: "/biodata/:id",
-          element: <BiodataDetailsPage/>,
+          element: <PrivateRoute><BiodataDetailsPage/></PrivateRoute>,
         },
         {
           path: "/aboutUs",
@@ -50,7 +51,7 @@ const Router = createBrowserRouter([
         },
         {
           path: "/checkout/:id",
-          element: <CheckoutPage/>,
+          element: <PrivateRoute><CheckoutPage/></PrivateRoute>,
         },
         {
           path: "/login",

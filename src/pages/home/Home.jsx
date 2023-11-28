@@ -8,11 +8,18 @@ import WhyUsSecrion from "./WhyUsSecrion";
 import CounterSection from "./CounterSection";
 import TestimonialSection from "./TestimonialSEction";
 import Footer from "../../components/footer/Footer";
+import { useEffect } from "react";
 
 
 
 
 const Home = () => {
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }, [])
 
     return (
         <Box>

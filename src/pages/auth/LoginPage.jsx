@@ -5,18 +5,49 @@ import loginCouple from '../../assets/Login/login-couple.png'
 import Marquee from "react-fast-marquee";
 import margueImg from '../../assets/Login/loginMarque.png'
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
+import ButtonLoader from "../../components/Spinner/ButtonLoader";
 
 const LoginPage = () => {
     const navigate = useNavigate()
+    const { loading, signInWithEmailPassword, setLoading, googleSignIn } = useAuth() || {};
 
+    // handle login
     const handleLogin = (e) => {
         e.preventDefault();
         const email = e.target.email.value;
         const password = e.target.password.value;
 
-        const newUser = { email, password };
-        console.log(newUser);
+        // const newUser = { email, password };
+        // // console.log(newUser);
+        signInWithEmailPassword(email, password)
+            .then((result) => {
+                setLoading(false);
+                navigate(location?.state ? location.state : "/");
+                toast.success("Login successful");
+            })
+            .catch((err) => {
+                console.log(err)
+                setLoading(false);
+                toast.error(err.message);
+            });
     }
+
+
+    // google sign in
+    const handleGoogleSignIn = () => {
+        googleSignIn()
+            .then((result) => {
+                setLoading(false);
+                navigate(location?.state ? location.state : "/");
+                toast.success("Login successful");
+            })
+            .catch((err) => {
+                setLoading(false);
+                toast.error(err.message);
+            });
+    };
     return (
         <Box
             component='div'
@@ -180,7 +211,10 @@ const LoginPage = () => {
                                 <TextField color="warning" fullWidth size="small" id="outlined-basic" label="Email" variant="outlined" name="email" placeholder="Enter Your Email" />
                                 <TextField color="warning" fullWidth size="small" id="outlined-basic" label="Password" variant="outlined" name="password" placeholder="Enter Your Password" />
 
-                                <Button variant="contained" color="warning" size="large" type="submit">Sign In</Button>
+                                <Button variant="contained" color="warning" size="large" type="submit">
+                                {loading ? <ButtonLoader size={12} color='#fff' /> : "Sign In"}
+                                    
+                                </Button>
                             </Box>
                         </Box>
 
@@ -193,11 +227,13 @@ const LoginPage = () => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 pt: '20px',
-                                gap:'10px'
+                                gap: '10px'
                             }}
                         >
-                            <Button variant="contained" color="inherit" size="large" type="submit" sx={{fontSize:'12px',width:'100%'}}>Sign In with Google</Button>
-                            <Button variant="contained" color="inherit" size="large" type="submit" sx={{fontSize:'12px',width:'100%'}}>Sign In Github</Button>
+                            <Button onClick={handleGoogleSignIn} variant="contained" color="inherit" size="large" type="submit" sx={{ fontSize: '12px', width: '100%', fontWeight: 600 }}>
+                                {loading ? <ButtonLoader size={12} color='#e58f27' /> : "Sign In with Google"}
+                            </Button>
+                            <Button disabled variant="contained" color="inherit" size="large" type="submit" sx={{ fontSize: '12px', width: '100%', fontWeight: 600 }}>Sign In Github</Button>
 
                         </Box>
 

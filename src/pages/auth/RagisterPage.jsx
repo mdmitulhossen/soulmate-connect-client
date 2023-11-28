@@ -4,10 +4,19 @@ import loginBg from '../../assets/Login/loginBg.jpg'
 import loginCouple from '../../assets/Login/login-couple.png'
 import Marquee from "react-fast-marquee";
 import margueImg from '../../assets/Login/loginMarque.png'
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
+import ButtonLoader from "../../components/Spinner/ButtonLoader";
+
 
 const RagisterPage = () => {
     const navigate = useNavigate()
+    const location = useLocation();
+    const { signUpWithEmailPassword, updateUserProfile, loading, setLoading,
+    } = useAuth() || {};
+
+
     const handleRigister = (e) => {
         e.preventDefault();
         const name = e.target.name.value;
@@ -15,8 +24,31 @@ const RagisterPage = () => {
         const password = e.target.password.value;
         const imageURL = e.target.imageURL.value;
 
-        const newUser = { name, email, password, imageURL };
-        console.log(newUser);
+        // const newUser = { name, email, password, imageURL };
+        // console.log(newUser);
+        if (password.length < 6) {
+            toast.error("Password must be at least 6 characters")
+            return
+        }
+        //create user
+        signUpWithEmailPassword(email, password)
+            .then((result) => {
+                updateUserProfile({ displayName: name, photoURL: imageURL })
+                    .then((r) => {
+                        setLoading(false);
+                        navigate(location?.state ? location.state : "/");
+                        toast.success("Registration successful");
+
+                    })
+                    .catch((err) => {
+                        setLoading(false);
+                        toast.error(err.message);
+                    });
+            })
+            .catch((err) => {
+                toast.error(err.message);
+                setLoading(false);
+            });
     }
     return (
         <Box
@@ -156,7 +188,7 @@ const RagisterPage = () => {
                                     opacity: 0.7
                                 }}
                             >
-                                Already a member? <span onClick={()=>navigate('/login')} style={{ color: '#66451c', cursor: 'pointer', fontWeight: 600 }}>Login</span>
+                                Already a member? <span onClick={() => navigate('/login')} style={{ color: '#66451c', cursor: 'pointer', fontWeight: 600 }}>Login</span>
                             </Typography>
                         </Box>
 
@@ -181,7 +213,9 @@ const RagisterPage = () => {
                                 <TextField color="warning" fullWidth size="small" id="outlined-basic" label="Email" variant="outlined" name="email" placeholder="Enter Your Email" />
                                 <TextField color="warning" fullWidth size="small" id="outlined-basic" label="Password" variant="outlined" name="password" placeholder="Enter Your Password" />
                                 <TextField color="warning" fullWidth size="small" id="outlined-basic" label="imageURL" variant="outlined" name="imageURL" placeholder="Enter Your imageURL" />
-                                <Button variant="contained" color="warning" size="large" type="submit">Create Account</Button>
+                                <Button variant="contained" color="warning" size="large" type="submit">
+                                    {loading ? <ButtonLoader size={12} color='#fff' /> : 'Create Account'}
+                                </Button>
                             </Box>
                         </Box>
 

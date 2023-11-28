@@ -20,6 +20,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import userAvater from '../../assets/user.png'
 import UserDrawer from './drawer/userDrawer';
 import MatrimonyContainer from '../shared/MatrimonyContainer';
+import useAuth from '../../hooks/useAuth';
 
 const drawerWidth = 240;
 
@@ -30,9 +31,11 @@ function Navbar(props) {
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [userOpen, setUserOpen] = React.useState(false);
     const location = useLocation();
+    const { user} = useAuth() || {};
 
-    const user = true;
-    const admin = true;
+    console.log("navbar",user)
+    const admin = false;
+
     const dashbordRoute = user ? admin ? { name: 'Dashboard', path: '/dashboard/admin' } : { name: 'Dashboard', path: '/dashboard/user' } : { name: '', path: '' }
     // After get user data from database
     const navItems = [
@@ -128,7 +131,7 @@ function Navbar(props) {
                                     >
                                         <Avatar
                                             sx={{ border: '2px solid #66451c' }}
-                                            alt="user" src={userAvater} />
+                                            alt="user" src={user?.photoURL} />
                                         <Box
                                             sx={{ display: { sz: 'none', lg: 'block' } }}
                                         >
@@ -144,7 +147,7 @@ function Navbar(props) {
                                                 sx={{ color: '#66451c', opacity: 50, fontWeight: 600, fontSize: { md: '15px', sz: '12px' } }}
                                                 variant="paragraph"
                                             >
-                                                MD Mitul Hosain
+                                                {user?.displayName}
                                             </Typography>
                                         </Box>
                                     </Box>
