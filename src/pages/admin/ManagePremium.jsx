@@ -20,6 +20,10 @@ const rows = [
     { B_ID: '1', name: 'John Doe', email: 'john.doe@example.com' },
     { B_ID: '2', name: 'Jane Smith', email: 'jane.smith@example.com' },
     { B_ID: '3', name: 'Bob Johnson', email: 'bob.johnson@example.com' },
+    { B_ID: '4', name: 'Bob Johnson', email: 'bob.johnson@example.com' },
+    { B_ID: '5', name: 'Bob Johnson', email: 'bob.johnson@example.com' },
+    { B_ID: '6', name: 'Bob Johnson', email: 'bob.johnson@example.com' },
+    { B_ID: '7', name: 'Bob Johnson', email: 'bob.johnson@example.com' },
     // Add more rows as needed
 ];
 
@@ -95,7 +99,7 @@ const ManagePremium = () => {
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
+                    rowsPerPageOptions={[5,10, 25, 100]}
                     component="div"
                     count={rows.length}
                     rowsPerPage={rowsPerPage}

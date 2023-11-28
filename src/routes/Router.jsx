@@ -19,12 +19,14 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import ManageUser from "../pages/admin/ManageUser";
 import ManagePremium from "../pages/admin/ManagePremium";
 import ManageContactRequest from "../pages/admin/ManageContactRequest";
+import NotFoundPage from "../pages/NotFoundPage";
 
 
 const Router = createBrowserRouter([
     {
       path: "/",
       element: <MainLayout/>,
+      errorElement:<NotFoundPage/>,
       children: [
         {
           path: "/",
@@ -63,6 +65,7 @@ const Router = createBrowserRouter([
     {
       path:'/dashboard/user',
       element:<UserDashboard/>,
+      errorElement:<NotFoundPage/>,
       children:[
         {
           index:true,
@@ -89,6 +92,7 @@ const Router = createBrowserRouter([
     {
       path:'/dashboard/admin',
       element:<AdminLayout/>,
+      errorElement:<NotFoundPage/>,
       children:[
         {
           index:true,

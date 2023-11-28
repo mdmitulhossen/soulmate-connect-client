@@ -3,9 +3,10 @@ import test from '../../assets/BiodataDetails/2.jpg'
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import StreetviewIcon from '@mui/icons-material/Streetview';
 import RadioIcon from '@mui/icons-material/Radio';
-import RecommendIcon from '@mui/icons-material/Recommend';
+
 import DatasetIcon from '@mui/icons-material/Dataset';
 import { Box, Chip, Paper, Typography } from "@mui/material";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const sideNavItems = [
     { name: 'Dashboard', path: '/dashboard/admin', icon: <DatasetIcon fontSize="medium" /> },
@@ -39,8 +40,8 @@ const AdminSideNav = () => {
                 sx={{
                     mt: 2,
                 }}>
-                    <Chip sx={{borderRadius:'5px'}} color="primary" size="small" label="Admin"></Chip>
-                </Box>
+                <Chip sx={{ borderRadius: '5px' }} color="primary" size="small" label="Admin"></Chip>
+            </Box>
             <Box>
                 {
                     sideNavItems.map((item, index) => (
@@ -78,6 +79,38 @@ const AdminSideNav = () => {
                         </Box>
                     ))
                 }
+
+                <Box
+                    component='p'
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 2,
+                        mt: 2,
+                        py: '2px',
+                        px: 1,
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        '&:hover': {
+                            background: '#E4F1FC',
+                            color: '#03A9F4',  
+                        }
+                    }}
+                >
+                
+                    <LogoutIcon fontSize="medium" />
+                    <Typography
+                        component='span'
+                        variant='paragraph'
+                        sx={{
+                            fontSize: '16px',
+                            fontWeight: 600,
+
+                        }}
+                    >
+                        LogOut
+                    </Typography>
+                </Box>
             </Box>
         </Paper >
     );

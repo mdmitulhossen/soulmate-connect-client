@@ -1,9 +1,8 @@
-import React from 'react';
-import MatrimonyContainer from '../components/shared/MatrimonyContainer';
 import { Box } from '@mui/material';
-import UserSidebar from '../pages/userDashboard/UserSidebar';
+import React from 'react';
 import { Outlet } from 'react-router-dom';
 import AdminSideNav from '../components/Header/AdminSideNav';
+import MatrimonyContainer from '../components/shared/MatrimonyContainer';
 
 const AdminLayout = () => {
     return (

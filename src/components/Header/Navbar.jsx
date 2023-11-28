@@ -22,12 +22,7 @@ import UserDrawer from './drawer/userDrawer';
 import MatrimonyContainer from '../shared/MatrimonyContainer';
 
 const drawerWidth = 240;
-const navItems = [
-    { name: 'Home', path: '/' },
-    { name: 'Biodatas', path: '/biodatas' },
-    { name: 'About Us', path: '/aboutUs' },
-    { name: 'Contact Us', path: '/contactUs' }
-]
+
 
 
 function Navbar(props) {
@@ -37,6 +32,17 @@ function Navbar(props) {
     const location = useLocation();
 
     const user = true;
+    const admin = true;
+    const dashbordRoute = user ? admin ? { name: 'Dashboard', path: '/dashboard/admin' } : { name: 'Dashboard', path: '/dashboard/user' } : { name: '', path: '' }
+    // After get user data from database
+    const navItems = [
+        { name: 'Home', path: '/' },
+        { name: 'Biodatas', path: '/biodatas' },
+        { name: 'About Us', path: '/aboutUs' },
+        { name: 'Contact Us', path: '/contactUs' },
+        // { name: 'Dashboard', path: '/dashboard/admin' },
+        dashbordRoute
+    ]
 
     const handleDrawerToggle = () => {
         setMobileOpen((prevState) => !prevState);
@@ -53,8 +59,8 @@ function Navbar(props) {
         <Box>
             <MatrimonyContainer>
                 {/* <CssBaseline /> */}
-                <AppBar elevation={0} component="nav" sx={{ bgcolor: '#FEFBF3', color: '#66451c', py: 1,width:'100%' }} position='sticky'>
-                    <Toolbar disableGutters sx={{ padding: '0px',width:'100%' }}>
+                <AppBar elevation={0} component="nav" sx={{ bgcolor: '#FEFBF3', color: '#66451c', py: 1, width: '100%' }} position='sticky'>
+                    <Toolbar disableGutters sx={{ padding: '0px', width: '100%' }}>
 
                         <Box
                             component='div'

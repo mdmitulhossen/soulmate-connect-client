@@ -1,6 +1,4 @@
-import { Box, Paper } from "@mui/material";
-import MatrimonyContainer from "../../components/shared/MatrimonyContainer";
-import UserSidebar from "./UserSidebar";
+import { Box } from "@mui/material";
 
 
 const UserHomeDashboard = () => {

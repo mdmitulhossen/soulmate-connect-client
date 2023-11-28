@@ -6,6 +6,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import StreetviewIcon from '@mui/icons-material/Streetview';
 import RadioIcon from '@mui/icons-material/Radio';
 import RecommendIcon from '@mui/icons-material/Recommend';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const sideNavItems = [
     { name: 'Dashboard', path: '/dashboard/user', icon: <DatasetIcon fontSize="medium" /> },
@@ -21,7 +22,7 @@ const UserSidebar = () => {
         <Paper
             elevation={2}
             sx={{
-                p: {sz:1,lg:2,xxl:4},
+                p: { sz: 1, lg: 2, xxl: 4 },
                 borderRadius: 2,
             }}
         >
@@ -43,7 +44,7 @@ const UserSidebar = () => {
                             key={index}
                             component={NavLink}
                             to={item.path}
-                            style={(location.pathname === item.path) ? { color: '#03A9F4', textDecoration: 'none', background: '#E4F1FC' } : { color: '#000', textDecoration: 'none'}}
+                            style={(location.pathname === item.path) ? { color: '#03A9F4', textDecoration: 'none', background: '#E4F1FC' } : { color: '#000', textDecoration: 'none' }}
                             sx={{
                                 display: 'flex',
                                 alignItems: 'center',
@@ -73,6 +74,37 @@ const UserSidebar = () => {
                         </Box>
                     ))
                 }
+                <Box
+                    component='p'
+                    sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 2,
+                        mt: 2,
+                        py: '2px',
+                        px: 1,
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        '&:hover': {
+                            background: '#E4F1FC',
+                            color: '#03A9F4',
+                        }
+                    }}
+                >
+
+                    <LogoutIcon fontSize="medium" />
+                    <Typography
+                        component='span'
+                        variant='paragraph'
+                        sx={{
+                            fontSize: '16px',
+                            fontWeight: 600,
+
+                        }}
+                    >
+                        LogOut
+                    </Typography>
+                </Box>
             </Box>
         </Paper >
     );
