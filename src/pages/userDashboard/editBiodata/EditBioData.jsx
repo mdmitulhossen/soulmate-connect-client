@@ -47,54 +47,62 @@ const EditBioData = () => {
         e.preventDefault();
         const form = new FormData(e.currentTarget);
 
-   
+
 
 
 
         // upload image to imgbb
         setBioDataLoading(true)
-        const res = await axios.post(imgBBUrl, form, { headers: { 'Content-Type': 'multipart/form-data' } })
-        // console.log("bb", res)
+        // const res = await axios.post(imgBBUrl, form, { headers: { 'Content-Type': 'multipart/form-data' } })
+
+        axios.post(imgBBUrl, form, { headers: { 'Content-Type': 'multipart/form-data' } })
+            .then(res => {
+                if (res.data.success) {
+                    const imageUrl = res.data.data.display_url
+                    const data = {
+                        name: form.get('name') || '',
+                        email: form.get('email') || '',
+                        phone: form.get('phone') || '',
+                        image: imageUrl || '',
+                        fatherName: form.get('fatherName') || '',
+                        motherName: form.get('motherName') || '',
+                        gender: form.get('gender') || '',
+                        dob: form.get('dob') || '',
+                        age: form.get('age') || '',
+                        height: form.get('height') || '',
+                        weight: form.get('weight') || '',
+                        occupation: form.get('occupation') || '',
+                        race: form.get('race') || '',
+                        presentDivision: form.get('presentDivision') || '',
+                        parmanentDivision: form.get('parmanentDivision') || '',
+                        partnerAge: form.get('partnerAge') || '',
+                        partnerHeight: form.get('partnerHeight') || '',
+                        partnerWeight: form.get('partnerWeight') || '',
+                    }
+
+                    console.log("form==>", data)
+                    axiosPublic.put('/biodata/createOrUpdate', data)
+                        .then(res => {
+                            setBioDataLoading(false)
+                            toast.success('Bio Data Updated Successfully')
+                        })
+                        .catch(err => {
+                            setBioDataLoading(false)
+                            toast.error(`Somthing error ${err.message}`)
+                        })
 
 
-        if (res.data.success) {
-            const imageUrl = res.data.data.display_url
-            const data = {
-                name: form.get('name') || '',
-                email: form.get('email') || '',
-                phone: form.get('phone') || '',
-                image: imageUrl || '',
-                fatherName: form.get('fatherName') || '',
-                motherName: form.get('motherName') || '',
-                gender: form.get('gender') || '',
-                dob: form.get('dob') || '',
-                age: form.get('age') || '',
-                height: form.get('height') || '',
-                weight: form.get('weight') || '',
-                occupation: form.get('occupation') || '',
-                race: form.get('race') || '',
-                presentDivision: form.get('presentDivision') || '',
-                parmanentDivision: form.get('parmanentDivision') || '',
-                partnerAge: form.get('partnerAge') || '',
-                partnerHeight: form.get('partnerHeight') || '',
-                partnerWeight: form.get('partnerWeight') || '',
-            }
-
-            console.log("form==>", data)
-            axiosPublic.put('/biodata/createOrUpdate', data)
-                .then(res => {
+                } else {
                     setBioDataLoading(false)
-                    toast.success('Bio Data Updated Successfully')
-                })
-                .catch(err => {
-                    setBioDataLoading(false)
-                    toast.error(`Somthing error ${err.message}`)
-                })
+                    toast.error(`give photo and try again`)
+                }
+            })
+            .catch(err => {
+                console.log("hello err==>",err)
+                setBioDataLoading(false)
+                toast.error(`give photo and try again Error: ${err.message}`)
+            })
 
-
-        } else {
-            toast.error(`Somthing error Photo upload`)
-        }
 
 
     }

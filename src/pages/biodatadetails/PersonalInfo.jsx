@@ -2,7 +2,7 @@ import { Box, IconButton, Typography } from "@mui/material";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import PersonalInfoLine from "../../components/biodataDetails/PersonalInfoLine";
 
-const PersonalInfo = () => {
+const PersonalInfo = ({data}) => {
     // ['name', 'email', 'phone', 'image', 'fatherName', 'motherName', 'gender', 'dob', 'age', 'height', 'weight', 'occupation', 'race', 'presentDivision', 'parmanentDivision', 'partnerAge', 'partnerHeight', 'partnerWeight']
     return (
         <Box
@@ -22,23 +22,23 @@ const PersonalInfo = () => {
                 }}
             >
                 {/* Name */}
-                <PersonalInfoLine level='name' value='Developer' />
+                <PersonalInfoLine level='name' value={data?.name || 'N/A'} />
                 {/* email */}
-                <PersonalInfoLine level='email' value='Smith@dev.com' />
+                <PersonalInfoLine level='email' value={data?.email || 'N/A'} />
                 {/* phone */}
-                <PersonalInfoLine level='phone no' value='10485656' />
+                <PersonalInfoLine level='phone no' value={data?.phone || 'N/A'} />
                 {/* FatherName */}
-                <PersonalInfoLine level='FatherName' value='jhon' />
+                <PersonalInfoLine level='FatherName' value={data?.fatherName || 'N/A'} />
                 {/* motherName */}
-                <PersonalInfoLine level='motherName' value='jhemla' />
+                <PersonalInfoLine level='motherName' value={data?.motherName || 'N/A'} />
                 {/* gender */}
-                <PersonalInfoLine level='gender' value='male' />
+                <PersonalInfoLine level='gender' value={data?.gender || 'N/A'} />
                 {/* dob */}
-                <PersonalInfoLine level='dob' value='10-12-23' />
+                <PersonalInfoLine level='dob' value={data?.dob || 'N/A'} />
                 {/* age */}
-                <PersonalInfoLine level='age' value='23yrs' />
+                <PersonalInfoLine level='age' value={data?.age || 'N/A'} />
                 {/* height */}
-                <PersonalInfoLine level='height' value='5ft' />
+                <PersonalInfoLine level='height' value={data?.height || 'N/A'} />
 
             </Box>
             <Box
@@ -51,21 +51,21 @@ const PersonalInfo = () => {
             >
 
                 {/* weight */}
-                <PersonalInfoLine level='weight' value='65kg' />
+                <PersonalInfoLine level='weight' value={data?.weight || 'N/A'} />
                 {/* occupation */}
-                <PersonalInfoLine level='occupation' value='job' />
+                <PersonalInfoLine level='occupation' value={data?.occupation || 'N/A'} />
                 {/* race */}
-                <PersonalInfoLine level='race' value='white' />
+                <PersonalInfoLine level='race' value={data?.race || 'N/A'}  />
                 {/* presentDivision */}
-                <PersonalInfoLine level='presentDivision' value='Dhaka' />
+                <PersonalInfoLine level='presentDivision' value={data?.presentDivision || 'N/A'}  />
                 {/* parmanentDivision */}
-                <PersonalInfoLine level='parmanentDivision' value='Khulna' />
+                <PersonalInfoLine level='parmanentDivision' value={data?.parmanentDivision || 'N/A'} />
                 {/* partnerAge */}
-                <PersonalInfoLine level='partnerAge' value='25' />
+                <PersonalInfoLine level='partnerAge' value={data?.partnerAge || 'N/A'} />
                 {/* partnerHeight */}
-                <PersonalInfoLine level='partnerHeight' value='6.5ft' />
+                <PersonalInfoLine level='partnerHeight' value={data?.partnerHeight || 'N/A'} />
                 {/* partnerWeight */}
-                <PersonalInfoLine level='partnerWeight' value='65kg' />
+                <PersonalInfoLine level='partnerWeight' value={data?.partnerWeight || 'N/A'}  />
 
             </Box>
         </Box>

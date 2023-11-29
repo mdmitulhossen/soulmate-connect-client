@@ -7,6 +7,7 @@ import RadioIcon from '@mui/icons-material/Radio';
 import DatasetIcon from '@mui/icons-material/Dataset';
 import { Box, Chip, Paper, Typography } from "@mui/material";
 import LogoutIcon from '@mui/icons-material/Logout';
+import useAuth from "../../hooks/useAuth";
 
 const sideNavItems = [
     { name: 'Dashboard', path: '/dashboard/admin', icon: <DatasetIcon fontSize="medium" /> },
@@ -17,6 +18,7 @@ const sideNavItems = [
 
 const AdminSideNav = () => {
     const location = useLocation()
+    const { user } = useAuth() || {};
     return (
         <Paper
             elevation={2}
@@ -26,15 +28,25 @@ const AdminSideNav = () => {
             }}
         >
             <Box
-                component='img'
-                src={test}
-                alt='test'
                 sx={{
                     width: '100%',
-                    height: '200px',
-                    borderRadius: 2,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    pb: 3,
                 }}
-            />
+            >
+                <Box
+                    component='img'
+                    src={user?.photoURL ? user?.photoURL : test}
+                    alt='test'
+                    sx={{
+                        width: '60%',
+                        // height: '200px',
+                        borderRadius: '50%',
+                        mx: 'auto',
+                    }}
+                />
+            </Box>
             {/* items */}
             <Box
                 sx={{
@@ -93,11 +105,11 @@ const AdminSideNav = () => {
                         cursor: 'pointer',
                         '&:hover': {
                             background: '#E4F1FC',
-                            color: '#03A9F4',  
+                            color: '#03A9F4',
                         }
                     }}
                 >
-                
+
                     <LogoutIcon fontSize="medium" />
                     <Typography
                         component='span'

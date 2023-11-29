@@ -2,8 +2,36 @@ import { Box, Button, Paper, Typography } from "@mui/material";
 import PersonalInfo from "../../biodatadetails/PersonalInfo";
 import test from '../../../assets/BiodataDetails/1.jpeg'
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import useAuth from "../../../hooks/useAuth";
+import { useState } from "react";
+import Spinner from "../../../components/Spinner/Spinner";
+import { useEffect } from "react";
 
 const ViewBioData = () => {
+
+    const { user } = useAuth() || {};
+    const axiosPublic = useAxiosPublic()
+    const [bioData, setBioData] = useState(null);
+    const [dataLoading, setDataLoading] = useState(false);
+
+
+
+    useEffect(() => {
+        setDataLoading(true)
+        axiosPublic.get(`/biodata?email=${user.email}`)
+            .then(res => {
+                setDataLoading(false)
+                setBioData(res.data)
+            })
+            .catch(err => {
+                setDataLoading(false)
+                console.log(err)
+            })
+    }, [user, axiosPublic])
+
+    if (dataLoading) return <Spinner />
+
     const handleMakePremium = () => {
         Swal.fire({
             title: "Do you want to Make biodata to premium?",
@@ -54,20 +82,25 @@ const ViewBioData = () => {
                     // alignItems: 'center'
                 }}
             >
-                {/* <Box
-                    sx={{ width: '100%' }}
+                <Box
+                    sx={{ 
+                        width: '100%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        mb: 4
+                     }}
                 >
                    <Box
                      component='img'
                         src={test}
                         alt='test'
                         sx={{
-                            width: '250px',
-                            height: '200px',
-                            borderRadius: '5px'
+                            width: '50%',
+                            // height: '200px',
+                            borderRadius: '10px'
                         }}
                    />
-                </Box> */}
+                </Box>
                 {/* info */}
                 <Box
                     sx={{ width: '100%' }}
@@ -83,7 +116,7 @@ const ViewBioData = () => {
                     >
                         Personal Information
                     </Typography> */}
-                    <PersonalInfo />
+                    <PersonalInfo data={bioData}/>
                 </Box>
             </Paper>
         </div>

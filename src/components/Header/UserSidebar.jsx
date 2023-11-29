@@ -7,6 +7,7 @@ import StreetviewIcon from '@mui/icons-material/Streetview';
 import RadioIcon from '@mui/icons-material/Radio';
 import RecommendIcon from '@mui/icons-material/Recommend';
 import LogoutIcon from '@mui/icons-material/Logout';
+import useAuth from "../../hooks/useAuth";
 
 const sideNavItems = [
     { name: 'Dashboard', path: '/dashboard/user', icon: <DatasetIcon fontSize="medium" /> },
@@ -17,6 +18,7 @@ const sideNavItems = [
 ]
 
 const UserSidebar = () => {
+    const { user } = useAuth() || {};
     const location = useLocation()
     return (
         <Paper
@@ -27,15 +29,25 @@ const UserSidebar = () => {
             }}
         >
             <Box
-                component='img'
-                src={test}
-                alt='test'
                 sx={{
                     width: '100%',
-                    height: '200px',
-                    borderRadius: 2,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    pb: 3,
                 }}
-            />
+            >
+                <Box
+                    component='img'
+                    src={user?.photoURL ? user?.photoURL : test}
+                    alt='test'
+                    sx={{
+                        width: '60%',
+                        // height: '200px',
+                        borderRadius: '50%',
+                        mx: 'auto',
+                    }}
+                />
+            </Box>
             {/* items */}
             <Box>
                 {
