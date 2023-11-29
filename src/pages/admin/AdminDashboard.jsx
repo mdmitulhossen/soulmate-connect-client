@@ -1,10 +1,6 @@
-import React from 'react';
-import BiodataStats from './BiodataStats';
-import RevenueStats from './RevenueStats';
-import { Grid, Typography, Box } from '@mui/material';
+
+import { Typography, Box } from '@mui/material';
 import AdminBioDataStateCard from '../../components/cards/AdminBioDataStateCard';
-import AddModeratorIcon from '@mui/icons-material/AddModerator';
-import ApexCharts from 'apexcharts'
 import Chart from 'react-apexcharts'
 
 import allImage from '../../assets/icons/all.png';
