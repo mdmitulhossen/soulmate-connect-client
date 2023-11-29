@@ -62,11 +62,11 @@ const MyContactRequestPage = () => {
         status: item.isApproved ? 'Approved' : 'Pending',
       }
       rows.push(newRow)
-      console.log("afterLoading",newRow)
+     
     })
   }
-console.log("aafter push",rows)
-  console.log(contactRequestData.contactRequest)
+// console.log("aafter push",rows)
+//   console.log(contactRequestData.contactRequest)
 
   const handleDeleteClick = (index) => {
     // Implement your delete logic here, e.g., remove the row from the 'rows' array.

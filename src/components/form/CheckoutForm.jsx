@@ -16,7 +16,7 @@ const CheckoutForm = ({data}) => {
 
     const { user} = useAuth() || {};
 
-    const { B_ID , email,name } = data || {};
+    const { B_ID } = data || {};
 
     useEffect(() => {
         // Create PaymentIntent as soon as the page loads
@@ -33,7 +33,7 @@ const CheckoutForm = ({data}) => {
     }, [axiosPublic]);
 
 
-    console.log('sajknfsaf====>', clientSecret)
+    // console.log('sajknfsaf====>', clientSecret)
 
 
     const handleSubmit = async (e) => {
@@ -80,7 +80,7 @@ const CheckoutForm = ({data}) => {
                 setPaymentLoading(true)
                 console.log('Payment Intent', paymentIntent)
                 const newContactRequestData = {
-                    name,
+                    name: user?.displayName,
                     email: user?.email,
                     B_ID,
                     tx_ID: paymentIntent.id,
@@ -115,7 +115,7 @@ const CheckoutForm = ({data}) => {
                 }}
             >
                 <TextInput label="BiodataID" type='text' value={B_ID} name="B_ID" readOnly={true} />
-                <TextInput label="Email" type='text' value={email} name="email" readOnly={true} />
+                <TextInput label="Email" type='text' value={user?.email} name="email" readOnly={true} />
 
             </Box>
             <CardElement
