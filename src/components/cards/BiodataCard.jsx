@@ -2,7 +2,10 @@ import { Box, Chip, Divider, Paper, Typography } from '@mui/material';
 import userImage from '../../assets/userSaruk.jpeg';
 import { useNavigate } from 'react-router-dom';
 
-const BiodataCard = () => {
+const BiodataCard = ({biodata}) => {
+
+    const {B_ID, name, email, phone, image, fatherName, motherName, gender, dob, height, weight, occupation, race, presentDivision, parmanentDivision, partnerAge,partnerHeight, partnerWeight, premium, married, time,age} = biodata || {};
+
     const navigate = useNavigate()
     return (
         <>
@@ -32,11 +35,11 @@ const BiodataCard = () => {
                         px: 1
                     }}
                 >
-                    BID 134
+                    BID {B_ID}
                 </Typography>
                 <Box
                     component='img'
-                    src={userImage}
+                    src={image}
                     alt='user'
                     sx={{
                         width: {xl:'320px',lg:'220px',md:'250px',sz:'100%'},
@@ -61,7 +64,7 @@ const BiodataCard = () => {
                             pb: 2
                         }}
                     >
-                        Muhammad Fauzan
+                        {name}
                     </Typography>
                     <Box
                         sx={{
@@ -71,10 +74,10 @@ const BiodataCard = () => {
                             pb: 2
                         }}
                     >
-                        <Chip label="male" sx={{ bgcolor: '#718FA0', borderRadius: '5px', fontWeight: 600, color: '#fff', fontSize: '12px' }} />
-                        <Chip label="22 Yrs Old" sx={{ bgcolor: '#718FA0', borderRadius: '5px', fontWeight: 600, color: '#fff', fontSize: '12px' }} />
-                        <Chip label="Dhaka" sx={{ bgcolor: '#718FA0', borderRadius: '5px', fontWeight: 600, color: '#fff', fontSize: '12px' }} />
-                        <Chip label="Student" sx={{ bgcolor: '#718FA0', borderRadius: '5px', fontWeight: 600, color: '#fff', fontSize: '12px' }} />
+                        <Chip label={gender} sx={{ bgcolor: '#718FA0', borderRadius: '5px', fontWeight: 600, color: '#fff', fontSize: '12px' }} />
+                        <Chip label={`${age} Yrs Old`} sx={{ bgcolor: '#718FA0', borderRadius: '5px', fontWeight: 600, color: '#fff', fontSize: '12px' }} />
+                        <Chip label={presentDivision} sx={{ bgcolor: '#718FA0', borderRadius: '5px', fontWeight: 600, color: '#fff', fontSize: '12px' }} />
+                        <Chip label={occupation} sx={{ bgcolor: '#718FA0', borderRadius: '5px', fontWeight: 600, color: '#fff', fontSize: '12px' }} />
                     </Box>
                     <Divider />
                     <Box
@@ -86,7 +89,7 @@ const BiodataCard = () => {
                         }}
                     >
                         <Chip label="Send Interest" variant="outlined" onClick={() => console.log('click')} sx={{ fontWeight: 600, color: '#718FA0', fontSize: '12px' }}/>
-                        <Chip label="View Profile" variant="outlined" onClick={() => navigate('/biodata/1')} sx={{ fontWeight: 600, color: '#718FA0', fontSize: '12px' }}/>
+                        <Chip label="View Profile" variant="outlined" onClick={() => navigate(`/biodata/${B_ID}`)} sx={{ fontWeight: 600, color: '#718FA0', fontSize: '12px' }}/>
                     </Box>
                 </Box>
 

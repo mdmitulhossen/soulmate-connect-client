@@ -13,6 +13,8 @@ import bioDataBg from '../../assets/biodata/bioDataBg.png'
 import bioDataBg2 from '../../assets/biodata/bioData3.png'
 import Spinner from "../../components/Spinner/Spinner";
 import DataNotFound from "../DataNotFound";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const selectStyles = {
     control: (base, state) => ({
@@ -30,9 +32,18 @@ const selectStyles = {
 
 const BiodatasPage = () => {
     const [selectedOption, setSelectedOption] = useState(null);
+    const axiosPublic = useAxiosPublic()
 
-    console.log(selectedOption)
+    const { data: biodata = [], isLoading } = useQuery({
+        queryKey: ['Allbiodata'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('/biodata')
+            return res.data
+        }
+    })
 
+
+    console.log(biodata)
     return (
         <Box
             component='div'
@@ -329,29 +340,39 @@ const BiodatasPage = () => {
                                         fontSize: '28px',
                                     }}
                                 >
-                                    Showing 32 profiles
+                                    Showing {biodata?.length} profiles
                                 </Typography>
                             </Box>
                             <Divider />
                             {/* <Box>
                                 <DataNotFound/>
                             </Box> */}
-                            <Box
-                                sx={{
-                                    pt: 4,
-                                    px: 4,
-                                    display: 'flex',
-                                    gap: '20px',
-                                    flexDirection: 'column'
-                                }}
-                            >
+                            {
+                                isLoading ? <Spinner />
+                                    : biodata.length === 0 ? <DataNotFound />:
+                                    <Box
+                                        sx={{
+                                            pt: 4,
+                                            px: 4,
+                                            display: 'flex',
+                                            gap: '20px',
+                                            flexDirection: 'column'
+                                        }}
+                                    >
+                                        {
+                                            biodata?.map((item) => (
+                                                <BiodataCard key={item._id} biodata={item} />
+                                            ))
+                                        }
+                                        {/* <BiodataCard />
                                 <BiodataCard />
                                 <BiodataCard />
                                 <BiodataCard />
                                 <BiodataCard />
-                                <BiodataCard />
-                                <BiodataCard />
-                            </Box>
+                                <BiodataCard /> */}
+                                    </Box>
+                            }
+
 
                         </Box>
                     </Box>

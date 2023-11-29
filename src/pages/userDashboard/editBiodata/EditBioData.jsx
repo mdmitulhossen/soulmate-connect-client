@@ -245,7 +245,8 @@ const EditBioData = () => {
                                 gridColumn: { lg: 'span 6', sz: 'span 12' },
                             }}
                         >
-                            <SelectInput defaultValue={getSeleledIndex(bioData?.age, age)} label="Age" name="age" options={age} />
+                            <TextInput value={bioData?.age} label="Age" type='number' name="age" />
+                            {/* <SelectInput defaultValue={getSeleledIndex(bioData?.age, age)} label="Age" name="age" options={age} /> */}
                         </Box>
                         {/* Height */}
                         <Box

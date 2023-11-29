@@ -1,4 +1,4 @@
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Box, Button, Paper, Typography, Chip } from "@mui/material";
 import PersonalInfo from "../../biodatadetails/PersonalInfo";
 import test from '../../../assets/BiodataDetails/1.jpeg'
 import Swal from "sweetalert2";
@@ -7,13 +7,16 @@ import useAuth from "../../../hooks/useAuth";
 import { useState } from "react";
 import Spinner from "../../../components/Spinner/Spinner";
 import { useEffect } from "react";
+import ButtonLoader from "../../../components/Spinner/ButtonLoader";
 
 const ViewBioData = () => {
 
     const { user } = useAuth() || {};
     const axiosPublic = useAxiosPublic()
     const [bioData, setBioData] = useState(null);
+    const [premiumData, setPremiumData] = useState(null);
     const [dataLoading, setDataLoading] = useState(false);
+    const [premiumLoading, setPremiumLoading] = useState(false);
 
 
 
@@ -23,6 +26,21 @@ const ViewBioData = () => {
             .then(res => {
                 setDataLoading(false)
                 setBioData(res.data)
+            })
+            .catch(err => {
+                setDataLoading(false)
+                console.log(err)
+            })
+    }, [user, axiosPublic])
+
+
+    // premimum data
+    useEffect(() => {
+        setDataLoading(true)
+        axiosPublic.get(`/premiumBio/getOne?email=${user.email}`)
+            .then(res => {
+                setDataLoading(false)
+                setPremiumData(res.data)
             })
             .catch(err => {
                 setDataLoading(false)
@@ -42,12 +60,29 @@ const ViewBioData = () => {
         }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                Swal.fire("Requested Successfully", "", "success");
+                const newData = {
+                    B_ID: bioData?.B_ID,
+                    name: bioData?.name,
+                    email: bioData?.email,
+                    isPremium: false,
+                }
+                setPremiumLoading(true)
+                axiosPublic.post(`/premiumBio/create`, newData)
+                    .then(res => {
+                        console.log(res)
+                        setPremiumLoading(false)
+                        Swal.fire("Requested Successfully", "", "success");
+                    }).catch(err => {
+                        console.log(err)
+                        setPremiumLoading(false)
+                        Swal.fire("Requested is denied", "", "info");
+                    })
             } else if (result.isDenied) {
                 Swal.fire("Requested is denied", "", "info");
             }
         });
     }
+
     return (
         <div>
             <Box
@@ -67,7 +102,14 @@ const ViewBioData = () => {
                 >
                     View Your Bio Data
                 </Typography>
-                <Button onClick={handleMakePremium} sx={{ fontSize: '12px', fontWeight: 600 }} variant="contained" color="warning" size="large" type="submit"> Make  premium</Button>
+                {
+                    premiumData?.isPremium ? <Chip label="Premiumed" sx={{ bgcolor: '#718FA0', borderRadius: '5px', fontWeight: 600, color: '#fff', fontSize: '12px' }} />
+                        :
+                        <Button disabled={premiumData} onClick={handleMakePremium} sx={{ fontSize: '12px', fontWeight: 600 }} variant="contained" color="warning" size="large" type="submit">
+                            {premiumLoading ? <ButtonLoader size={12} color='#fff' /> : 'Make  premium'}
+                        </Button>
+                }
+
             </Box>
             <Paper
                 elevation={2}
@@ -83,23 +125,23 @@ const ViewBioData = () => {
                 }}
             >
                 <Box
-                    sx={{ 
+                    sx={{
                         width: '100%',
                         display: 'flex',
                         justifyContent: 'center',
                         mb: 4
-                     }}
+                    }}
                 >
-                   <Box
-                     component='img'
-                        src={test}
+                    <Box
+                        component='img'
+                        src={bioData?.image ? bioData?.image : test}
                         alt='test'
                         sx={{
                             width: '50%',
                             // height: '200px',
                             borderRadius: '10px'
                         }}
-                   />
+                    />
                 </Box>
                 {/* info */}
                 <Box
@@ -116,7 +158,7 @@ const ViewBioData = () => {
                     >
                         Personal Information
                     </Typography> */}
-                    <PersonalInfo data={bioData}/>
+                    <PersonalInfo data={bioData} />
                 </Box>
             </Paper>
         </div>

@@ -7,14 +7,29 @@ import ContactBioDataPage from "./ContactBioDataPage";
 import PersonalInfo from "./PersonalInfo";
 import HeaderBreadCrumb from "../../components/breadcrumb/HeaderBreadCrumb";
 import SimilarProfileCard from "../../components/cards/SimilarProfileCard";
-import { NavLink } from "react-router-dom";
+import { NavLink,useNavigate } from "react-router-dom";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-
-
+import { useParams } from 'react-router-dom';
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 
 const BiodataDetailsPage = () => {
+    const navigate = useNavigate()
+    const { id } = useParams()
+    const axiosPublic = useAxiosPublic()
+
+    const { data: biodata = {}, isLoading } = useQuery({
+        queryKey: ['bioDataById', id],
+        queryFn: async () => {
+            const res = await axiosPublic.get(`/biodata/${id}`)
+            return res.data
+        }
+    })
+
+    const { B_ID, name, email, phone, image, fatherName, motherName, gender, dob, height, weight, occupation, race, presentDivision, parmanentDivision, partnerAge, partnerHeight, partnerWeight, married, age } = biodata || {};
+
     const premium = true;
     const favourite = false;
     return (
@@ -23,7 +38,7 @@ const BiodataDetailsPage = () => {
                 pb: 10,
             }}
         >
-            <HeaderBreadCrumb header='biodata details' id='1' />
+            <HeaderBreadCrumb header='biodata details' id={B_ID} />
             <MatrimonyContainer>
                 <Box
                     component='div'
@@ -41,7 +56,17 @@ const BiodataDetailsPage = () => {
                         }}
                     >
                         {/* Image preview */}
-                        <ImagePreview />
+                        <Box
+                            component='img'
+                            src={image}
+                            alt='user'
+                            sx={{
+                                width: '100%',
+                                height: '350px',
+                                borderRadius: '5px',
+                            }}
+                        />
+                        {/* <ImagePreview /> */}
                         {/* Details */}
                         <Box
                             component='div'
@@ -66,7 +91,7 @@ const BiodataDetailsPage = () => {
                                         }}
 
                                     >
-                                        Sharuk Khan
+                                        {name}
                                     </Typography>
                                     <Box
                                         sx={{
@@ -116,6 +141,7 @@ const BiodataDetailsPage = () => {
                                                 color: '#fff',
                                             },
                                         }}
+                                        onClick={()=>navigate(`/checkout/${B_ID}`)}
                                         component={NavLink}
                                         to='#'
                                         variant='contained'
@@ -135,7 +161,7 @@ const BiodataDetailsPage = () => {
                                     py: 6
                                 }}
                             >
-                                <MiniDetailCards age='21' height='5.5' city='DHAKA' job='WORKING' />
+                                <MiniDetailCards age={age} height={height} city={presentDivision} job={occupation} />
                             </Box>
 
                             {/* about me */}
@@ -166,7 +192,9 @@ const BiodataDetailsPage = () => {
                                         mt: 1
                                     }}
                                 >
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus sed sapiente impedit nihil deleniti quibusdam ut ullam, iste est ea. Praesentium, harum deleniti. Perferendis blanditiis obcaecati ullam, ipsum magni velit recusandae pariatur veniam quo, in quis qui maiores voluptatem? Atque libero dolore eum vitae ab vero quos esse accusantium ipsa!
+                                    {`   "Hello! I'm ${name}, a ${occupation} based in ${presentDivision}. 
+
+                                    Beyond my professional life, I find joy in my Hobbies or Interests, whether it' or exploring the vibrant ${parmanentDivision} scene. I'm driven by a curiosity for  Philosophies and am always seeking new challenges that push me to grow.`}
                                 </Typography>
                             </Box>
 
@@ -190,7 +218,7 @@ const BiodataDetailsPage = () => {
                                 >
                                         CONTACT INFO
                                     </Typography>
-                                    <ContactBioDataPage />
+                                    <ContactBioDataPage phone={phone} email={email} address={presentDivision} />
                                 </Box>
                             }
 
@@ -212,7 +240,7 @@ const BiodataDetailsPage = () => {
                             >
                                     PERSONAL INFORMATION
                                 </Typography>
-                                <PersonalInfo />
+                                <PersonalInfo data={biodata}/>
                             </Box>
                         </Box>
                     </Box>

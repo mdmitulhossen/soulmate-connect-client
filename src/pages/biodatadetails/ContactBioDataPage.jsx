@@ -3,7 +3,7 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import EmailIcon from '@mui/icons-material/Email';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 
-const ContactBioDataPage = () => {
+const ContactBioDataPage = ({phone,email,address}) => {
     return (
         <>
             <Box
@@ -37,7 +37,7 @@ const ContactBioDataPage = () => {
                         fontSize: '17px',
                         color: '#66451c'
                     }}>
-                    PHONE : <span style={{ fontWeight: 400 }}>01700000000</span>
+                    PHONE : <span style={{ fontWeight: 400 }}>{phone}</span>
                 </Typography>
             </Box>
             <Box
@@ -73,7 +73,7 @@ const ContactBioDataPage = () => {
                         fontSize: '17px',
                         color: '#66451c'
                     }}>
-                    EMAIL : <span style={{ fontWeight: 400 }}>dev@dev.com</span>
+                    EMAIL : <span style={{ fontWeight: 400 }}>{email}</span>
                 </Typography>
             </Box>
             <Box
@@ -107,7 +107,7 @@ const ContactBioDataPage = () => {
                         fontSize: '17px',
                         color: '#66451c'
                     }}>
-                    ADDRESS : <span style={{ fontWeight: 400 }}>125 Mirpur ,Dhaka</span>
+                    ADDRESS : <span style={{ fontWeight: 400 }}>{address}</span>
                 </Typography>
             </Box>
         </>

@@ -1,11 +1,22 @@
-import { Box, Button, Paper, Select, TextField, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import HeaderBreadCrumb from "../../components/breadcrumb/HeaderBreadCrumb";
 import MatrimonyContainer from "../../components/shared/MatrimonyContainer";
 
 import planIcon from '../../assets/checkout/plan.png'
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { useParams } from 'react-router-dom';
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
+import CheckoutForm from "../../components/form/CheckoutForm";
+import { useQuery } from "@tanstack/react-query";
+import Spinner from "../../components/Spinner/Spinner";
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLICK_KEY);
 
 const CheckoutPage = () => {
+    const { id } = useParams()
+    const axiosPublic = useAxiosPublic()
     // Get the current date
     const currentDate = new Date();
 
@@ -16,12 +27,21 @@ const CheckoutPage = () => {
     // Format the dates
     const futureDateString = futureDate.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
 
-    // Output the result
-    // console.log("Date after 6 months:", futureDateString);
+    const { data: biodata = {}, isLoading } = useQuery({
+        queryKey: ['bioDataPayment', id],
+        queryFn: async () => {
+            const res = await axiosPublic.get(`/biodata/${id}`)
+            return res.data
+        }
+    })
+
+    if(isLoading) return <Spinner/>
+
 
 
     return (
         <>
+
             <HeaderBreadCrumb header='Checkout' id='1' />
             <MatrimonyContainer>
                 <Box
@@ -38,7 +58,7 @@ const CheckoutPage = () => {
                     <Box
                         component='div'
                         sx={{
-                            width: {md:'30%',sz:'100%'},
+                            width: { md: '30%', sz: '100%' },
                             // display: 'flex',
                             // justifyContent: 'space-between',
                             // gap: '20px',
@@ -123,6 +143,17 @@ const CheckoutPage = () => {
                             >
                                 Vilid Till  <span style={{ fontWeight: 600 }}>{futureDateString}</span>
                             </Typography>
+                            <Typography
+                                variant='paragraph'
+                                sx={{
+                                    fontSize: '14px',
+                                    color: '#66451c',
+                                    fontWeight: 400,
+                                    textAlign: 'center'
+                                }}
+                            >
+                                Amount  <span style={{ fontWeight: 600 }}>599 TK</span>
+                            </Typography>
 
                         </Paper>
                     </Box>
@@ -130,7 +161,7 @@ const CheckoutPage = () => {
                     <Box
                         component='div'
                         sx={{
-                            width: {md:'70%',sz:'100%'},
+                            width: { md: '70%', sz: '100%' },
                             // display: 'flex',
                             // justifyContent: 'space-between',
                             // gap: '20px',
@@ -160,46 +191,25 @@ const CheckoutPage = () => {
                                 // alignItems: 'center',
                                 // gap: '10px'
                             }}>
-                            <Box
-                                component='form'
-                                sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: '20px',
-                                    justifyContent: 'center',
-                                }}
-                            // onSubmit={handleLogin}
-                            >
-                                <Box
-                                    sx={{
-                                        display: 'flex',
-                                        gap: '20px',
-                                    }}
-                                >
-                                    <div>
-                                        <label htmlFor="biodataID">BiodataID</label>
-                                        <TextField disabled color="warning" fullWidth size="small" id="biodataID" value='1' variant="outlined" name="biodataID" placeholder="BioDataID" sx={{ mt: 1 }} />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="selfID">Your BioData ID</label>
-                                        <TextField disabled color="warning" value='124' fullWidth size="small" id="selfID" variant="outlined" name="selfID" placeholder=" Your BioDataID" sx={{ mt: 1 }} />
-                                    </div>
 
-                                </Box>
-                                <Box>
-                                    <label htmlFor="selfEmail">Your Email</label>
-                                    <TextField disabled color="warning" value='dev@dev.com' fullWidth size="small" id="selfEmail" variant="outlined" name="selfEmail" placeholder=" Your Email" sx={{ mt: 1 }} />
-                                </Box>
 
-                                {/* TODO: Stripe payment integrate */}
 
-                                <Button sx={{maxWidth:'250px',mx:'auto'}} variant="contained" color="warning" size="large" type="submit">Submit</Button>
+
+                            {/* TODO: Stripe payment integrate */}
+
+                            <Box>
+                                <Elements stripe={stripePromise}>
+                                    <CheckoutForm data={biodata}/>
+                                </Elements>
                             </Box>
+
+
+
+
                         </Paper>
                     </Box>
                 </Box>
             </MatrimonyContainer>
-
         </>
     );
 };

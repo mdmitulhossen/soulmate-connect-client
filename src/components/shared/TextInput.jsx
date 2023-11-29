@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 
 const TextInput = ({ label, name, type, value, readOnly }) => {
     return (
-        <div>
+        <div 
+        style={{width:'100%'}}
+        >
             <Typography
                 component='p'
                 variant='paragraph'
