@@ -8,11 +8,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import ButtonLoader from "../../components/Spinner/ButtonLoader";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 
 const RagisterPage = () => {
     const navigate = useNavigate()
     const location = useLocation();
+    const axiosPublic = useAxiosPublic()
     const { signUpWithEmailPassword, updateUserProfile, loading, setLoading,
     } = useAuth() || {};
 
@@ -35,9 +37,17 @@ const RagisterPage = () => {
             .then((result) => {
                 updateUserProfile({ displayName: name, photoURL: imageURL })
                     .then((r) => {
-                        setLoading(false);
-                        navigate(location?.state ? location.state : "/");
-                        toast.success("Registration successful");
+                        axiosPublic.post('/users/create', { name, email })
+                            .then((res) => {
+                                setLoading(false);
+                                navigate(location?.state ? location.state : "/");
+                                toast.success("Registration successful");
+                            })
+                            .catch((err) => {
+                                setLoading(false);
+                                toast.success(err.message==='auth');
+                            })
+
 
                     })
                     .catch((err) => {

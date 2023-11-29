@@ -8,9 +8,11 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import toast from "react-hot-toast";
 import ButtonLoader from "../../components/Spinner/ButtonLoader";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const LoginPage = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const axiosPublic = useAxiosPublic()
     const { loading, signInWithEmailPassword, setLoading, googleSignIn } = useAuth() || {};
 
     // handle login
@@ -39,7 +41,9 @@ const LoginPage = () => {
     const handleGoogleSignIn = () => {
         googleSignIn()
             .then((result) => {
+                axiosPublic.post('/users/create', { name: result.user.displayName, email: result.user.email }).then(res => {console.log(res)}).catch(err => {console.log(err)})
                 setLoading(false);
+                console.log("googlr",result)
                 navigate(location?.state ? location.state : "/");
                 toast.success("Login successful");
             })

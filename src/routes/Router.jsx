@@ -65,28 +65,28 @@ const Router = createBrowserRouter([
     },
     {
       path:'/dashboard/user',
-      element:<UserDashboard/>,
+      element:<PrivateRoute><UserDashboard/></PrivateRoute>,
       errorElement:<NotFoundPage/>,
       children:[
         {
           index:true,
-          element:<UserHomeDashboard/>
+          element:<PrivateRoute><UserHomeDashboard/></PrivateRoute>
         },
         {
           path:'editbio',
-          element:<EditBioData/>
+          element:<PrivateRoute><EditBioData/></PrivateRoute>
         },
         {
           path:'viewBioData',
-          element:<ViewBioData/>
+          element:<PrivateRoute><ViewBioData/></PrivateRoute>
         },
         {
           path:'contactRequest',
-          element:<MyContactRequestPage/>
+          element:<PrivateRoute><MyContactRequestPage/></PrivateRoute>
         },
         {
           path:'favourite',
-          element:<MyFavouritePage/>
+          element:<PrivateRoute><MyFavouritePage/></PrivateRoute>
         }
       ]
     },

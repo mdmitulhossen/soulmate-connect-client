@@ -3,7 +3,7 @@ import { selectStyles } from '../../utils/styles';
 import { Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const SelectInput = ({label,name,options}) => {
+const SelectInput = ({label,name,options,defaultValue}) => {
     return (
         <div>
             <Typography
@@ -20,7 +20,7 @@ const SelectInput = ({label,name,options}) => {
 
             <Select
                 styles={selectStyles}
-                defaultValue={options[0]}
+                defaultValue={options[defaultValue?defaultValue:0]}
                 isClearable={true}
                 isSearchable={true}
                 name={name}

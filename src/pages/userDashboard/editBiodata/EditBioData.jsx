@@ -1,40 +1,101 @@
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Box, Button, Paper, Typography, TextField } from "@mui/material";
 import { useState } from "react";
 import { PresentDivision, age, gander, height, occupation, permanentDivision, race } from "../../../utils/editbiodataOptions";
 import SelectInput from "../../../components/shared/SelectInput";
 import TextInput from "../../../components/shared/TextInput";
 import Fileupload from "../../../components/shared/Fileupload";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import axios from "axios";
+import toast from "react-hot-toast";
+import ButtonLoader from "../../../components/Spinner/ButtonLoader";
+import useAuth from "../../../hooks/useAuth";
+import { useEffect } from "react";
+import { getSeleledIndex } from "../../../utils/selectIndex";
+import Spinner from "../../../components/Spinner/Spinner";
+
+const imgBBUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_imgBB_API_KEY}`
+
 
 const EditBioData = () => {
-    const [selectedOption, setSelectedOption] = useState(null);
+    // Todo: useAxiosSecure
+    const { user } = useAuth() || {};
+    const axiosPublic = useAxiosPublic()
+    const [bioDataLoading, setBioDataLoading] = useState(false);
+    const [bioData, setBioData] = useState(null);
+    const [dataLoading, setDataLoading] = useState(false);
 
 
-    const handleSubmit = (e) => {
+
+    useEffect(() => {
+        setDataLoading(true)
+        axiosPublic.get(`/biodata?email=${user.email}`)
+            .then(res => {
+                setDataLoading(false)
+                setBioData(res.data)
+            })
+            .catch(err => {
+                setDataLoading(false)
+                console.log(err)
+            })
+    }, [user, axiosPublic])
+
+    if (dataLoading) return <Spinner />
+
+
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const form = new FormData(e.currentTarget);
 
-        const data = {
-            name: form.get('name') || {},
-            email: form.get('email') || {},
-            phone: form.get('phone') || {},
-            image: form.get('image') || {},
-            fatherName: form.get('fatherName') || {},
-            motherName: form.get('motherName') || {},
-            gender: form.get('gender') || {},
-            dob: form.get('dob') || {},
-            age: form.get('age') || {},
-            height: form.get('height') || {},
-            weight: form.get('weight') || {},
-            occupation: form.get('occupation') || {},
-            race: form.get('race') || {},
-            presentDivision: form.get('presentDivision') || {},
-            parmanentDivision: form.get('parmanentDivision') || {},
-            partnerAge: form.get('partnerAge') || {},
-            partnerHeight: form.get('partnerHeight') || {},
-            partnerWeight: form.get('partnerWeight') || {},
+   
+
+
+
+        // upload image to imgbb
+        setBioDataLoading(true)
+        const res = await axios.post(imgBBUrl, form, { headers: { 'Content-Type': 'multipart/form-data' } })
+        // console.log("bb", res)
+
+
+        if (res.data.success) {
+            const imageUrl = res.data.data.display_url
+            const data = {
+                name: form.get('name') || '',
+                email: form.get('email') || '',
+                phone: form.get('phone') || '',
+                image: imageUrl || '',
+                fatherName: form.get('fatherName') || '',
+                motherName: form.get('motherName') || '',
+                gender: form.get('gender') || '',
+                dob: form.get('dob') || '',
+                age: form.get('age') || '',
+                height: form.get('height') || '',
+                weight: form.get('weight') || '',
+                occupation: form.get('occupation') || '',
+                race: form.get('race') || '',
+                presentDivision: form.get('presentDivision') || '',
+                parmanentDivision: form.get('parmanentDivision') || '',
+                partnerAge: form.get('partnerAge') || '',
+                partnerHeight: form.get('partnerHeight') || '',
+                partnerWeight: form.get('partnerWeight') || '',
+            }
+
+            console.log("form==>", data)
+            axiosPublic.put('/biodata/createOrUpdate', data)
+                .then(res => {
+                    setBioDataLoading(false)
+                    toast.success('Bio Data Updated Successfully')
+                })
+                .catch(err => {
+                    setBioDataLoading(false)
+                    toast.error(`Somthing error ${err.message}`)
+                })
+
+
+        } else {
+            toast.error(`Somthing error Photo upload`)
         }
 
-        console.log("edit bio==>", Object.keys(data))
 
     }
 
@@ -53,7 +114,7 @@ const EditBioData = () => {
             <Paper
                 elevation={2}
                 sx={{
-                    p: {sz:1,lg:3,xl:4},
+                    p: { sz: 1, lg: 3, xl: 4 },
                     borderRadius: 2,
                     mt: 2,
                     bgcolor: 'transparent',
@@ -86,31 +147,32 @@ const EditBioData = () => {
                         {/* Name */}
                         <Box
                             sx={{
-                                gridColumn: {lg:'span 6',sz:'span 12'},
+                                gridColumn: { lg: 'span 6', sz: 'span 12' },
                             }}
                         >
-                            <TextInput label="Name" name="name" />
+
+                            <TextInput value={bioData?.name} label="Name" name="name" />
                         </Box>
                         {/* Email */}
                         <Box
                             sx={{
-                                gridColumn: {lg:'span 6',sz:'span 12'},
+                                gridColumn: { lg: 'span 6', sz: 'span 12' },
                             }}
                         >
-                            <TextInput label="Email" name="email" disabled={true} />
+                            <TextInput readOnly={true} value={user?.email} label="Email" name="email" type='email' />
                         </Box>
                         {/* phone */}
                         <Box
                             sx={{
-                                gridColumn: {lg:'span 6',sz:'span 12'},
+                                gridColumn: { lg: 'span 6', sz: 'span 12' },
                             }}
                         >
-                            <TextInput label="Phone" type='number' name="phone" />
+                            <TextInput value={bioData?.phone} label="Phone" type='number' name="phone" />
                         </Box>
                         {/* Image Input */}
                         <Box
                             sx={{
-                                gridColumn: {lg:'span 6',sz:'span 12'},
+                                gridColumn: { lg: 'span 6', sz: 'span 12' },
                             }}
                         >
                             <Fileupload />
@@ -118,18 +180,18 @@ const EditBioData = () => {
                         {/*Father Name */}
                         <Box
                             sx={{
-                                gridColumn: {lg:'span 6',sz:'span 12'},
+                                gridColumn: { lg: 'span 6', sz: 'span 12' },
                             }}
                         >
-                            <TextInput label="Father Name" name="fatherName" />
+                            <TextInput value={bioData?.fatherName} label="Father Name" name="fatherName" />
                         </Box>
-                        {/*Father Name */}
+                        {/*mother Name */}
                         <Box
                             sx={{
-                                gridColumn: {lg:'span 6',sz:'span 12'},
+                                gridColumn: { lg: 'span 6', sz: 'span 12' },
                             }}
                         >
-                            <TextInput label="Mother Name" name="motherName" />
+                            <TextInput value={bioData?.motherName} label="Mother Name" name="motherName" />
                         </Box>
                     </Box>
 
@@ -156,15 +218,15 @@ const EditBioData = () => {
                         {/* gender */}
                         <Box
                             sx={{
-                                gridColumn: {lg:'span 6',sz:'span 12'},
+                                gridColumn: { lg: 'span 6', sz: 'span 12' },
                             }}
                         >
-                            <SelectInput label="Gender" name="gender" options={gander} />
+                            <SelectInput defaultValue={getSeleledIndex(bioData?.gender, gander)} label="Gender" name="gender" options={gander} />
                         </Box>
                         {/* Date of Birth */}
                         <Box
                             sx={{
-                                gridColumn: {lg:'span 6',sz:'span 12'},
+                                gridColumn: { lg: 'span 6', sz: 'span 12' },
                             }}
                         >
                             <TextInput label="Date of birth" type='date' name="dob" />
@@ -172,50 +234,50 @@ const EditBioData = () => {
                         {/* Age */}
                         <Box
                             sx={{
-                                gridColumn: {lg:'span 6',sz:'span 12'},
+                                gridColumn: { lg: 'span 6', sz: 'span 12' },
                             }}
                         >
-                            <SelectInput label="Age" name="age" options={age} />
+                            <SelectInput defaultValue={getSeleledIndex(bioData?.age, age)} label="Age" name="age" options={age} />
                         </Box>
                         {/* Height */}
                         <Box
                             sx={{
-                                gridColumn: {lg:'span 6',sz:'span 12'},
+                                gridColumn: { lg: 'span 6', sz: 'span 12' },
                             }}
                         >
-                            <SelectInput label="Height" name="height" options={height} />
+                            <SelectInput defaultValue={getSeleledIndex(bioData?.height, height)} label="Height" name="height" options={height} />
                         </Box>
                         {/* Weight */}
                         <Box
                             sx={{
-                                gridColumn: {lg:'span 6',sz:'span 12'},
+                                gridColumn: { lg: 'span 6', sz: 'span 12' },
                             }}
                         >
-                            <TextInput label="Weight" type='number' name="weight" />
+                            <TextInput value={bioData?.weight} label="Weight" type='number' name="weight" />
                         </Box>
                         {/* Race */}
                         <Box
                             sx={{
-                                gridColumn: {lg:'span 6',sz:'span 12'},
+                                gridColumn: { lg: 'span 6', sz: 'span 12' },
                             }}
                         >
-                            <SelectInput label="Race" name="race" options={race} />
+                            <SelectInput defaultValue={getSeleledIndex(bioData?.race, race)} label="Race" name="race" options={race} />
                         </Box>
                         {/* occupation */}
                         <Box
                             sx={{
-                                gridColumn: {lg:'span 6',sz:'span 12'},
+                                gridColumn: { lg: 'span 6', sz: 'span 12' },
                             }}
                         >
-                            <SelectInput label="occupation" name="occupation" options={occupation} />
+                            <SelectInput defaultValue={getSeleledIndex(bioData?.occupation, occupation)} label="occupation" name="occupation" options={occupation} />
                         </Box>
                         {/* Present Division */}
                         <Box
                             sx={{
-                                gridColumn: {lg:'span 6',sz:'span 12'},
+                                gridColumn: { lg: 'span 6', sz: 'span 12' },
                             }}
                         >
-                            <SelectInput label="Present Division" name="presentDivision" options={PresentDivision} />
+                            <SelectInput defaultValue={getSeleledIndex(bioData?.presentDivision, PresentDivision)} label="Present Division" name="presentDivision" options={PresentDivision} />
                         </Box>
                         {/* parmanent division */}
                         <Box
@@ -223,7 +285,7 @@ const EditBioData = () => {
                                 gridColumn: 'span 12',
                             }}
                         >
-                            <SelectInput label="parmanent division" name="parmanentDivision" options={permanentDivision} />
+                            <SelectInput defaultValue={getSeleledIndex(bioData?.parmanentDivision, permanentDivision)} label="parmanent division" name="parmanentDivision" options={permanentDivision} />
                         </Box>
 
                     </Box>
@@ -253,23 +315,23 @@ const EditBioData = () => {
                                 gridColumn: 'span 12',
                             }}
                         >
-                            <SelectInput label="PartnerAge" name="partnerAge" options={age} />
+                            <SelectInput defaultValue={getSeleledIndex(bioData?.partnerAge, age)} label="PartnerAge" name="partnerAge" options={age} />
                         </Box>
                         {/*Expected Partner Height */}
                         <Box
                             sx={{
-                                gridColumn: {lg:'span 6',sz:'span 12'},
+                                gridColumn: { lg: 'span 6', sz: 'span 12' },
                             }}
                         >
-                            <SelectInput label="partnerHeight" name="partnerHeight" options={height} />
+                            <SelectInput defaultValue={getSeleledIndex(bioData?.partnerHeight, height)} label="partnerHeight" name="partnerHeight" options={height} />
                         </Box>
                         {/*Expected Partner Weight */}
                         <Box
                             sx={{
-                                gridColumn: {lg:'span 6',sz:'span 12'},
+                                gridColumn: { lg: 'span 6', sz: 'span 12' },
                             }}
                         >
-                            <TextInput label="partnerWeight" type='number' name="partnerWeight" />
+                            <TextInput value={bioData?.partnerWeight} label="partnerWeight" type='number' name="partnerWeight" />
                         </Box>
                     </Box>
 
@@ -281,7 +343,7 @@ const EditBioData = () => {
                             display: 'flex',
                             justifyContent: 'center',
                         }}>
-                        <Button sx={{ fontSize: '12px', fontWeight: 600 }} variant="contained" color="warning" size="large" type="submit"> Save And Publish Now</Button>
+                        <Button sx={{ fontSize: '12px', fontWeight: 600 }} variant="contained" color="warning" size="large" type="submit">{bioDataLoading ? <ButtonLoader size={12} color='#fff' /> : 'Save And Publish Now'} </Button>
                     </Box>
                 </Box>
 

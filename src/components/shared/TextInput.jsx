@@ -1,7 +1,7 @@
 import { TextField, Typography } from "@mui/material";
 import PropTypes from 'prop-types';
 
-const TextInput = ({label,name,disabled,type}) => {
+const TextInput = ({ label, name, type, value, readOnly }) => {
     return (
         <div>
             <Typography
@@ -15,7 +15,24 @@ const TextInput = ({label,name,disabled,type}) => {
             >
                 {label}
             </Typography>
-            <TextField type={type?type:'text'}  disabled={disabled} color="warning" fullWidth size="small" id="outlined-basic" label={label} variant="outlined" name={name} placeholder={name} />
+            <input
+                readOnly={readOnly}
+                type={type ? type : 'text'}
+                defaultValue={value ? value : ''}
+                name={name}
+                placeholder={name}
+                style={{
+                    width: '100%',
+                    padding: '10px',
+                    borderRadius: '5px',
+                    border: '1px solid #ccc',
+                    boxSizing: 'border-box',
+
+                }}
+
+            />
+
+            {/* <TextField type={type ? type : 'text'} defaultValue={value ? value : ''} color="warning" fullWidth size="small" id="outlined-basic" label={label} variant="outlined" name={name} placeholder={name} /> */}
         </div>
     );
 };
@@ -23,7 +40,6 @@ const TextInput = ({label,name,disabled,type}) => {
 TextInput.propTypes = {
     label: PropTypes.string,
     name: PropTypes.string,
-    disabled: PropTypes.bool,
     type: PropTypes.string,
 };
 
