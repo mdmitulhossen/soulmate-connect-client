@@ -5,6 +5,7 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 import TextInput from "../shared/TextInput";
 import toast from "react-hot-toast";
 import ButtonLoader from "../Spinner/ButtonLoader";
+import useAuth from "../../hooks/useAuth";
 
 const CheckoutForm = ({data}) => {
     const axiosPublic = useAxiosPublic()
@@ -12,6 +13,8 @@ const CheckoutForm = ({data}) => {
     const elements = useElements();
     const [paymentLoading, setPaymentLoading] = useState(false);
     const [clientSecret, setClientSecret] = useState("");
+
+    const { user} = useAuth() || {};
 
     const { B_ID , email,name } = data || {};
 
@@ -66,7 +69,7 @@ const CheckoutForm = ({data}) => {
                 payment_method: {
                     card: card,
                     billing_details: {
-                        name: 'Jenny Rosen',
+                        name: user?.displayName || '',
                     },
                 }
             })
@@ -78,7 +81,7 @@ const CheckoutForm = ({data}) => {
                 console.log('Payment Intent', paymentIntent)
                 const newContactRequestData = {
                     name,
-                    email,
+                    email: user?.email,
                     B_ID,
                     tx_ID: paymentIntent.id,
                 }
