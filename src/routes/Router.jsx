@@ -21,6 +21,7 @@ import ManagePremium from "../pages/admin/ManagePremium";
 import ManageContactRequest from "../pages/admin/ManageContactRequest";
 import NotFoundPage from "../pages/NotFoundPage";
 import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
 
 
 const Router = createBrowserRouter([
@@ -92,24 +93,24 @@ const Router = createBrowserRouter([
     },
     {
       path:'/dashboard/admin',
-      element:<AdminLayout/>,
+      element:<AdminRoute><AdminLayout/></AdminRoute>,
       errorElement:<NotFoundPage/>,
       children:[
         {
           index:true,
-          element:<AdminDashboard/>
+          element:<AdminRoute><AdminDashboard/></AdminRoute>
         },
         {
           path:'manageUser',
-          element:<ManageUser/>
+          element:<AdminRoute><ManageUser/></AdminRoute>
         },
         {
           path:'approvedPremium',
-          element:<ManagePremium/>
+          element:<AdminRoute><ManagePremium/></AdminRoute>
         },
         {
           path:'approvedContactRequest',
-          element:<ManageContactRequest/>
+          element:<AdminRoute><ManageContactRequest/></AdminRoute>
         }
       ]
     }

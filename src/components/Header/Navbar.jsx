@@ -21,6 +21,10 @@ import userAvater from '../../assets/user.png'
 import UserDrawer from './drawer/userDrawer';
 import MatrimonyContainer from '../shared/MatrimonyContainer';
 import useAuth from '../../hooks/useAuth';
+import { useQuery } from '@tanstack/react-query';
+import useAxiosPublic from '../../hooks/useAxiosPublic';
+import Spinner from '../Spinner/Spinner';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const drawerWidth = 240;
 
@@ -32,9 +36,25 @@ function Navbar(props) {
     const [userOpen, setUserOpen] = React.useState(false);
     const location = useLocation();
     const { user} = useAuth() || {};
+    // console.log("navbar",user)
+    let admin = false;
+    const axiosPublic = useAxiosPublic()
 
-    console.log("navbar",user)
-    const admin = false;
+
+    const  {data:userData, isLoading} = useQuery({
+        queryKey: ['adminUserNav',user?.email],
+        queryFn: async () => {
+            const res = await axiosPublic.get(`/users/user?email=${user?.email}`)
+            return res.data
+        }
+    })
+
+ 
+    if(!isLoading){
+        admin = userData?.role?.toLowerCase() === 'admin'
+    }
+        
+    
 
     const dashbordRoute = user ? admin ? { name: 'Dashboard', path: '/dashboard/admin' } : { name: 'Dashboard', path: '/dashboard/user' } : { name: '', path: '' }
     // After get user data from database

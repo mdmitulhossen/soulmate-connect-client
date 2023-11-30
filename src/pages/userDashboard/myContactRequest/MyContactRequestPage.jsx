@@ -9,10 +9,12 @@ import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import { Box, Chip, MenuItem, Select, Typography } from '@mui/material';
 import CustomTable from '../../../components/shared/CustomTable';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import useAuth from '../../../hooks/useAuth';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import Spinner from '../../../components/Spinner/Spinner';
+import toast from "react-hot-toast";
+import DataNotFound from '../../DataNotFound';
 
 const columns = [
   { id: 'B_ID', label: 'B_ID', minWidth: 100, align: 'center' },
@@ -39,38 +41,57 @@ const columns = [
 // ];
 
 const MyContactRequestPage = () => {
-  const { user} = useAuth() || {};
+  const { user } = useAuth() || {};
   const axiosPublic = useAxiosPublic()
+  const queryClient = useQueryClient()
 
-  const {data:contactRequestData=[], isLoading, isError} = useQuery({
+  const { data: contactRequestData = [], isLoading, isError } = useQuery({
     queryKey: ['my-contact-request'],
-    queryFn: async() => {
-      const res =await axiosPublic(`/contactRequest?email=${user?.email}`)
-        return res.data
-    } 
+    queryFn: async () => {
+      const res = await axiosPublic(`/contactRequest?email=${user?.email}`)
+      return res.data
+    }
   })
+  // useMutation tanstack query
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (deletedata) => {
+      return await axiosPublic.delete('/contactRequest/delete', deletedata)
+    },
+    onSuccess: (data) => {
+      console.log(data)
+      toast.success(' Deleted Successfully');
+    },
+    onError: () => {
+      toast.error("Something went wrong ! isn't delete")
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries('my-contact-request')
+    }
+  })
+
+
+
   const rows = [];
-  if(isLoading) {
-    return <Spinner/>
-  }else{
-    contactRequestData.contactRequest.map((item) => {
+  if (isLoading || isPending) {
+    return <Spinner />
+  } else {
+    contactRequestData?.contactRequest?.map((item) => {
       const newRow = {
-        B_ID: item.B_ID,
+        B_ID: item?.B_ID,
         name: item?.biodata[0]?.name[0],
-        email: item.isApproved ? item?.biodata[0]?.email[0] :'N/A',
+        email: item.isApproved ? item?.biodata[0]?.email[0] : 'N/A',
         phone: item.isApproved ? item?.biodata[0]?.phone[0] : 'N/A',
         status: item.isApproved ? 'Approved' : 'Pending',
       }
       rows.push(newRow)
-     
+
     })
   }
-// console.log("aafter push",rows)
-//   console.log(contactRequestData.contactRequest)
+  // console.log("aafter push",rows)
+  //   console.log(contactRequestData.contactRequest)
 
-  const handleDeleteClick = (index) => {
-    // Implement your delete logic here, e.g., remove the row from the 'rows' array.
-    console.log('Delete button clicked for index:', index);
+  const handleDeleteClick = (rowData) => {
+    mutate({ email: rowData.email, B_ID: rowData.B_ID })
   };
 
   const handleStatusChange = (event, rowIndex) => {
@@ -92,7 +113,10 @@ const MyContactRequestPage = () => {
         My Contact Request
       </Typography>
       <Paper sx={{ width: '100%', overflow: 'auto' }}>
-        <CustomTable columns={columns} rows={rows} handleDeleteClick={handleDeleteClick} handleStatusChange={handleStatusChange} />
+        {
+          contactRequestData?.contactRequest?.length === 0 ? <DataNotFound /> : <CustomTable columns={columns} rows={rows} handleDeleteClick={handleDeleteClick} handleStatusChange={handleStatusChange} />
+        }
+
       </Paper>
     </Box>
   );

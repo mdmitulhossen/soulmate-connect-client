@@ -87,7 +87,7 @@ const ManageUser = () => {
                                                         {column.id === 'action' ? (
                                                             <div>
                                                                 <Chip onClick={() => handleMakeAdminClick(row.userName)} label="Make Admin" color="primary" size='small' style={{ marginRight: 5 }} />
-                                                                <Chip onClick={() => handleMakePremiumClick(row.userName)} label="Make Premium" color="secondary" size='small' />
+                                                                <Chip onClick={() => handleMakePremiumClick(row.userName)} label="Delete" color="secondary" size='small' />
                                                             </div>
                                                         ) : (
                                                             column.format && typeof value === 'number' ? column.format(value) : value

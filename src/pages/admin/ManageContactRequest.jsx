@@ -13,6 +13,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import Spinner from '../../components/Spinner/Spinner';
 
 import toast from "react-hot-toast";
+import DataNotFound from '../DataNotFound';
 
 const columns = [
     { id: 'B_ID', label: 'B_ID', minWidth: 100, align: 'center' },
@@ -54,8 +55,8 @@ const ManageContactRequest = () => {
             return res.data
         }
     })
-       // useMutation tanstack query
-       const { mutate, isPending } = useMutation({
+    // useMutation tanstack query
+    const { mutate, isPending } = useMutation({
         mutationFn: async (updateData) => {
             return await axiosPublic.put('/contactRequest/update', updateData)
         },
@@ -116,54 +117,61 @@ const ManageContactRequest = () => {
                 Manage Contact Request
             </Typography>
             <Paper sx={{ width: '100%', overflow: 'auto', border: '1px dashed #000' }}>
-                <TableContainer sx={{ maxHeight: 440 }}>
-                    <Table stickyHeader aria-label="sticky table">
-                        <TableHead sx={{ bgColor: 'red' }}>
-                            <TableRow>
-                                {columns.map((column) => (
-                                    <TableCell
-                                        key={column.id}
-                                        align={column.align}
-                                        style={{ minWidth: column.minWidth, backgroundColor: '#f2f2f2', fontWeight: 'bold' }}
-                                    >
-                                        {column.label}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row, rowIndex) => {
-                                    return (
-                                        <TableRow hover role="checkbox" tabIndex={-1} key={rowIndex}>
-                                            {columns.map((column) => {
-                                                const value = row[column.id];
+                {
+                    contactRequestData?.contactRequest?.length === 0 ? <DataNotFound />
+                        :
+                        <>
+                            <TableContainer sx={{ maxHeight: 440 }}>
+                                <Table stickyHeader aria-label="sticky table">
+                                    <TableHead sx={{ bgColor: 'red' }}>
+                                        <TableRow>
+                                            {columns.map((column) => (
+                                                <TableCell
+                                                    key={column.id}
+                                                    align={column.align}
+                                                    style={{ minWidth: column.minWidth, backgroundColor: '#f2f2f2', fontWeight: 'bold' }}
+                                                >
+                                                    {column.label}
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {rows
+                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                            .map((row, rowIndex) => {
                                                 return (
-                                                    <TableCell key={column.id} align={column.align}>
-                                                        {column.id === 'action' ? (
-                                                            <Chip disabled={row.isApproved} onClick={() => handleApprovedContactClick(row)} label={row.isApproved ? "Approved" : "Approve Contact"} color="primary" size='small' />
-                                                        ) : (
-                                                            column.format && typeof value === 'number' ? column.format(value) : value
-                                                        )}
-                                                    </TableCell>
+                                                    <TableRow hover role="checkbox" tabIndex={-1} key={rowIndex}>
+                                                        {columns.map((column) => {
+                                                            const value = row[column.id];
+                                                            return (
+                                                                <TableCell key={column.id} align={column.align}>
+                                                                    {column.id === 'action' ? (
+                                                                        <Chip disabled={row.isApproved} onClick={() => handleApprovedContactClick(row)} label={row.isApproved ? "Approved" : "Approve Contact"} color="primary" size='small' />
+                                                                    ) : (
+                                                                        column.format && typeof value === 'number' ? column.format(value) : value
+                                                                    )}
+                                                                </TableCell>
+                                                            );
+                                                        })}
+                                                    </TableRow>
                                                 );
                                             })}
-                                        </TableRow>
-                                    );
-                                })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <TablePagination
+                                rowsPerPageOptions={[10, 25, 100]}
+                                component="div"
+                                count={rows.length}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onPageChange={handleChangePage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            />
+                        </>
+                }
+
             </Paper>
         </div>
     );

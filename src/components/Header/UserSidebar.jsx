@@ -8,6 +8,7 @@ import RadioIcon from '@mui/icons-material/Radio';
 import RecommendIcon from '@mui/icons-material/Recommend';
 import LogoutIcon from '@mui/icons-material/Logout';
 import useAuth from "../../hooks/useAuth";
+import toast from 'react-hot-toast';
 
 const sideNavItems = [
     { name: 'Dashboard', path: '/dashboard/user', icon: <DatasetIcon fontSize="medium" /> },
@@ -18,8 +19,14 @@ const sideNavItems = [
 ]
 
 const UserSidebar = () => {
-    const { user } = useAuth() || {};
+    const { user, logOut } = useAuth() || {};
     const location = useLocation()
+
+    const handleLogOut = () => {
+        logOut().then((res) => {
+            toast.success('Logout Successfully')
+        })
+    }
     return (
         <Paper
             elevation={2}
@@ -38,7 +45,7 @@ const UserSidebar = () => {
             >
                 <Box
                     component='img'
-                    src={user?.photoURL ? user?.photoURL : test}
+                    src={user?.photoURL ? user?.photoURL : ''}
                     alt='test'
                     sx={{
                         width: '60%',
@@ -87,6 +94,7 @@ const UserSidebar = () => {
                     ))
                 }
                 <Box
+                    onClick={handleLogOut}
                     component='p'
                     sx={{
                         display: 'flex',
@@ -106,6 +114,7 @@ const UserSidebar = () => {
 
                     <LogoutIcon fontSize="medium" />
                     <Typography
+
                         component='span'
                         variant='paragraph'
                         sx={{

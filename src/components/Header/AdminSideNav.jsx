@@ -1,9 +1,9 @@
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import test from '../../assets/BiodataDetails/2.jpg'
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import StreetviewIcon from '@mui/icons-material/Streetview';
 import RadioIcon from '@mui/icons-material/Radio';
-
+import toast from 'react-hot-toast';
 import DatasetIcon from '@mui/icons-material/Dataset';
 import { Box, Chip, Paper, Typography } from "@mui/material";
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -12,13 +12,20 @@ import useAuth from "../../hooks/useAuth";
 const sideNavItems = [
     { name: 'Dashboard', path: '/dashboard/admin', icon: <DatasetIcon fontSize="medium" /> },
     { name: 'Manage user', path: '/dashboard/admin/manageUser', icon: <EditNoteIcon fontSize="medium" /> },
-    { name: 'Manage Premium', path: '/dashboard/admin/approvedPremium', icon: <StreetviewIcon fontSize="medium" /> },
+    { name: 'Manage Premium Bio', path: '/dashboard/admin/approvedPremium', icon: <StreetviewIcon fontSize="medium" /> },
     { name: 'Manage Contact Request', path: '/dashboard/admin/approvedContactRequest', icon: <RadioIcon fontSize="medium" /> },
 ]
 
 const AdminSideNav = () => {
     const location = useLocation()
-    const { user } = useAuth() || {};
+    const navigate = useNavigate()
+    const { user,logOut } = useAuth() || {};
+
+    const handleLogOut = () => {
+        logOut().then((res) => {
+            toast.success('Logout Successfully')
+        })
+    }
     return (
         <Paper
             elevation={2}
@@ -37,7 +44,7 @@ const AdminSideNav = () => {
             >
                 <Box
                     component='img'
-                    src={user?.photoURL ? user?.photoURL : test}
+                    src={user?.photoURL ? user?.photoURL : ''}
                     alt='test'
                     sx={{
                         width: '60%',
@@ -51,8 +58,12 @@ const AdminSideNav = () => {
             <Box
                 sx={{
                     mt: 2,
+                    display: 'flex',
+                    gap: 1,
                 }}>
                 <Chip sx={{ borderRadius: '5px' }} color="primary" size="small" label="Admin"></Chip>
+                <Chip onClick={()=>navigate('/dashboard/user')} sx={{ borderRadius: '5px' }} color="warning" size="small" label="User DashBoard"></Chip>
+                <Chip onClick={()=>navigate('/')} sx={{ borderRadius: '5px' }} color="warning" size="small" label="Home"></Chip>
             </Box>
             <Box>
                 {
@@ -93,6 +104,7 @@ const AdminSideNav = () => {
                 }
 
                 <Box
+                    onClick={handleLogOut}
                     component='p'
                     sx={{
                         display: 'flex',

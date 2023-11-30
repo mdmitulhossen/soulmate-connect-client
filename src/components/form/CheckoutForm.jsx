@@ -1,14 +1,14 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { Box, Button, Paper, Select, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
+import useAxiosSecure from "../../hooks/useAxiosSecure"
 import TextInput from "../shared/TextInput";
 import toast from "react-hot-toast";
 import ButtonLoader from "../Spinner/ButtonLoader";
 import useAuth from "../../hooks/useAuth";
 
 const CheckoutForm = ({data}) => {
-    const axiosPublic = useAxiosPublic()
+    const axiosSecure = useAxiosSecure()
     const stripe = useStripe()
     const elements = useElements();
     const [paymentLoading, setPaymentLoading] = useState(false);
@@ -21,7 +21,7 @@ const CheckoutForm = ({data}) => {
     useEffect(() => {
         // Create PaymentIntent as soon as the page loads
         try {
-            axiosPublic
+            axiosSecure
                 .post("/payment/create-payment-intent", {
                     price: 4
                 })
@@ -30,7 +30,7 @@ const CheckoutForm = ({data}) => {
         } catch (error) {
             console.log("useEffect error:", error);
         }
-    }, [axiosPublic]);
+    }, [axiosSecure]);
 
 
     // console.log('sajknfsaf====>', clientSecret)
@@ -85,7 +85,7 @@ const CheckoutForm = ({data}) => {
                     B_ID,
                     tx_ID: paymentIntent.id,
                 }
-                axiosPublic.post('/contactRequest/create', newContactRequestData)
+                axiosSecure.post('/contactRequest/create', newContactRequestData)
                 .then(res=>{
                     setPaymentLoading(false)
                     toast.success('Payment Successfull')
