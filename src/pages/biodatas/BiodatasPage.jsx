@@ -1,4 +1,4 @@
-import { Box, Divider, IconButton, Typography } from "@mui/material";
+import { Box, Divider, IconButton, Pagination, PaginationItem, Typography } from "@mui/material";
 import Breadcrumb from "../../components/breadcrumb/Breadcrumb";
 import MatrimonyContainer from "../../components/shared/MatrimonyContainer";
 import Select from 'react-select';
@@ -16,6 +16,9 @@ import DataNotFound from "../DataNotFound";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+
 const selectStyles = {
     control: (base, state) => ({
         ...base,
@@ -31,19 +34,45 @@ const selectStyles = {
 
 
 const BiodatasPage = () => {
-    const [selectedOption, setSelectedOption] = useState(null);
     const axiosPublic = useAxiosPublic()
+    const [biodata, setBioData] = useState([]);
 
-    const { data: biodata = [], isLoading } = useQuery({
+    const { data: biodatas = [], isLoading } = useQuery({
         queryKey: ['Allbiodata'],
         queryFn: async () => {
             const res = await axiosPublic.get('/biodata')
+            setBioData(res.data)
             return res.data
         }
     })
 
+// gender filter
+    const handleGenderFilter = (inputValue) => {
+        const filterData = biodatas?.filter(item=>item.gender===inputValue.value)
+        setBioData(filterData)
+    }
 
-    console.log(biodata)
+    // age filter
+    const handleAgeFilter = (inputValue) => {
+        
+        const spilteAge = inputValue.value.split('-')
+        
+        const filterData = biodatas?.filter(item=> {
+            const isData = parseInt(spilteAge[0])<= parseInt(item.age) && parseInt(item.age)<=parseInt(spilteAge[1])
+            if(isData) return item
+        })
+        
+        setBioData(filterData)
+    }
+
+    const handleDivisionFilter = (inputValue) => {
+        const filterData = biodatas?.filter(item=>item.parmanentDivision===inputValue.value)
+        setBioData(filterData)
+    }
+
+    // division filter
+
+
     return (
         <Box
             component='div'
@@ -189,10 +218,11 @@ const BiodatasPage = () => {
                                     </Typography>
                                 </Box>
                                 <Select
+            
                                     styles={selectStyles}
                                     classNamePrefix="I am Looking For"
                                     defaultValue={IamLooking[0]}
-                                    onChange={setSelectedOption}
+                                    onChange={handleGenderFilter}
                                     isClearable={true}
                                     isSearchable={true}
                                     name="gender"
@@ -242,7 +272,7 @@ const BiodatasPage = () => {
                                     styles={selectStyles}
                                     // classNamePrefix="I am Looking For"
                                     defaultValue={age[0]}
-                                    onChange={setSelectedOption}
+                                    onChange={handleAgeFilter}
                                     isClearable={true}
                                     isSearchable={true}
                                     name="age"
@@ -292,7 +322,7 @@ const BiodatasPage = () => {
                                     styles={selectStyles}
                                     // classNamePrefix="I am Looking For"
                                     defaultValue={division[0]}
-                                    onChange={setSelectedOption}
+                                    onChange={handleDivisionFilter}
                                     isClearable={true}
                                     isSearchable={true}
                                     name="division"
@@ -307,73 +337,98 @@ const BiodatasPage = () => {
                             component='div'
                             sx={{
                                 width: { lg: '70%', sz: '100%' },
-                                height: '100vh',
-                                // minHeight:'100vh',
-                                overflowY: 'auto',
-                                '::-webkit-scrollbar': {
-                                    width: '4px'
-                                },
-                                '::-webkit-scrollbar-track': {
-                                    boxShadow: 'inset 0 0 1px #B2694F',
-                                    borderRadius: '5px'
-                                },
-                                '::-webkit-scrollbar-thumb': {
-                                    backgroundColor: 'rgba(188, 167, 160,0.8)',
-
-                                    borderRadius: '5px'
-                                }
                             }}
                         >
                             <Box
                                 component='div'
                                 sx={{
-                                    pb: 2,
-                                    px: 4
+                                    width: '100%',
+                                    height: '100vh',
+                                    // minHeight:'100vh',
+                                    overflowY: 'auto',
+                                    '::-webkit-scrollbar': {
+                                        width: '4px'
+                                    },
+                                    '::-webkit-scrollbar-track': {
+                                        boxShadow: 'inset 0 0 1px #B2694F',
+                                        borderRadius: '5px'
+                                    },
+                                    '::-webkit-scrollbar-thumb': {
+                                        backgroundColor: 'rgba(188, 167, 160,0.8)',
+
+                                        borderRadius: '5px'
+                                    }
                                 }}
                             >
-                                <Typography
-                                    variant='title'
-                                    component='p'
+                                <Box
+                                    component='div'
                                     sx={{
-                                        color: '#B2694F',
-                                        fontWeight: 600,
-                                        fontSize: '28px',
+                                        pb: 2,
+                                        px: 4
                                     }}
                                 >
-                                    Showing {biodata?.length} profiles
-                                </Typography>
-                            </Box>
-                            <Divider />
-                            {/* <Box>
-                                <DataNotFound/>
-                            </Box> */}
-                            {
-                                isLoading ? <Spinner />
-                                    : biodata.length === 0 ? <DataNotFound />:
-                                    <Box
+                                    <Typography
+                                        variant='title'
+                                        component='p'
                                         sx={{
-                                            pt: 4,
-                                            px: 4,
-                                            display: 'flex',
-                                            gap: '20px',
-                                            flexDirection: 'column'
+                                            color: '#B2694F',
+                                            fontWeight: 600,
+                                            fontSize: '28px',
                                         }}
                                     >
-                                        {
-                                            biodata?.map((item) => (
-                                                <BiodataCard key={item._id} biodata={item} />
-                                            ))
-                                        }
-                                        {/* <BiodataCard />
+                                        Showing {biodata?.length} profiles
+                                    </Typography>
+                                </Box>
+                                <Divider />
+                                {/* <Box>
+                                <DataNotFound/>
+                            </Box> */}
+                                {
+                                    isLoading ? <Spinner />
+                                        : biodata.length === 0 ? <DataNotFound /> :
+                                            <Box
+                                                sx={{
+                                                    pt: 4,
+                                                    px: 4,
+                                                    display: 'flex',
+                                                    gap: '20px',
+                                                    flexDirection: 'column'
+                                                }}
+                                            >
+                                                {
+                                                    biodata?.map((item) => (
+                                                        <BiodataCard key={item._id} biodata={item} />
+                                                    ))
+                                                }
+                                                {/* <BiodataCard />
                                 <BiodataCard />
                                 <BiodataCard />
                                 <BiodataCard />
                                 <BiodataCard />
                                 <BiodataCard /> */}
-                                    </Box>
-                            }
+                                            </Box>
+                                }
 
 
+                            </Box>
+
+                            <Box
+                             sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                             }}
+                            >
+                                <Pagination
+                                    sx={{ mt: 6 }}
+                                    count={10}
+                                    renderItem={(item) => (
+                                        <PaginationItem
+                                            slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}
+                                            {...item}
+                                        />
+                                    )}
+                                />
+                            </Box>
                         </Box>
                     </Box>
                 </MatrimonyContainer>

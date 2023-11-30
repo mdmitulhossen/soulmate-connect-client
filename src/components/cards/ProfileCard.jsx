@@ -1,8 +1,9 @@
 import { Box, Button, Paper, Typography } from "@mui/material";
 import userProfile from '../../assets/user.png'
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const ProfileCard = ({name}) => {
+    const navigate = useNavigate()
     return (
         <Box
             sx={{
@@ -88,6 +89,7 @@ const ProfileCard = ({name}) => {
                 }}
                 >
                     <Button
+                    onClick={()=>navigate(`/biodata/${1}`)}
                         sx={{
                             background: '#66451c',
                             color: '#fff',
