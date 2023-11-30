@@ -2,7 +2,7 @@ import { Box, Paper, Typography } from "@mui/material";
 import sarukhimage from '../../assets/BiodataDetails/1.jpeg'
 
 
-const SimilarProfileCard = () => {
+const SimilarProfileCard = ({data}) => {
     return (
         <Paper
         elevation={1}
@@ -11,7 +11,7 @@ const SimilarProfileCard = () => {
             height: '250px',
             borderRadius: '8px',
             bgcolor: '#fff',
-            backgroundImage: `url(${sarukhimage})`,
+            backgroundImage: `url(${data?.image})`,
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
@@ -29,7 +29,7 @@ const SimilarProfileCard = () => {
 
              }}
             >
-              21 years Old
+              {data?.age} years Old
             </Typography>
             <Paper
             elevation={1}
@@ -53,7 +53,7 @@ const SimilarProfileCard = () => {
                     textAlign: 'center'
                 }}
               >
-                 Developer
+                 {data?.name}
               </Typography>
               <Typography
                 component='p'
@@ -66,7 +66,7 @@ const SimilarProfileCard = () => {
                     mt:'2px'
                 }}
               >
-                 CITY: <span style={{fontWeight:600}}>DHAKA</span>
+                 CITY: <span style={{fontWeight:600}}>{data?.parmanentDivision}</span>
               </Typography>
             </Paper>
         </Paper>

@@ -2,7 +2,9 @@ import { Box, Button, Paper, Typography } from "@mui/material";
 import userProfile from '../../assets/user.png'
 import { NavLink, useNavigate } from "react-router-dom";
 
-const ProfileCard = ({name}) => {
+const ProfileCard = ({data}) => {
+    // const biodata = data?.bio;
+    // console.log(biodata,data)
     const navigate = useNavigate()
     return (
         <Box
@@ -36,7 +38,7 @@ const ProfileCard = ({name}) => {
                       
                     }}
                 >
-                    ND1
+                    B_ID {data?.B_ID}
                 </Typography>
                 <Box
                     sx={{
@@ -47,7 +49,7 @@ const ProfileCard = ({name}) => {
                 >
                     <Box
                         component='img'
-                        src={userProfile}
+                        src={data?.bio?.image}
                         sx={{
                             width: '150px',
                             height: '150px',
@@ -72,13 +74,13 @@ const ProfileCard = ({name}) => {
                     }}
                 >
                     <Box>
-                        <p>{name || 'mitul'}</p>
-                        <p>Male</p>
-                        <p>23 YRS</p>
+                        <p>{data?.name}</p>
+                        <p>{data?.bio?.gender}</p>
+                        <p>{data?.bio?.age} YRS</p>
                     </Box>
                     <Box>
-                        <p>Dhaka</p>
-                        <p>Student</p>
+                        <p>{data?.bio?.parmanentDivision}</p>
+                        <p>{data?.bio?.occupation}</p>
                     </Box>
                 </Typography>
                 <Box
@@ -89,7 +91,7 @@ const ProfileCard = ({name}) => {
                 }}
                 >
                     <Button
-                    onClick={()=>navigate(`/biodata/${1}`)}
+                    onClick={()=>navigate(`/biodata/${data?.B_ID}`)}
                         sx={{
                             background: '#66451c',
                             color: '#fff',

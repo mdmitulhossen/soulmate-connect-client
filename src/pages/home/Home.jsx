@@ -9,17 +9,33 @@ import CounterSection from "./CounterSection";
 import TestimonialSection from "./TestimonialSEction";
 import Footer from "../../components/footer/Footer";
 import { useEffect } from "react";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
+import Spinner from "../../components/Spinner/Spinner";
 
 
 
 
 const Home = () => {
+    const axiosPublic = useAxiosPublic();
+
     useEffect(() => {
         window.scrollTo({
             top: 0,
             behavior: "smooth"
         });
     }, [])
+
+    const { data: premiumBioData = [], isLoading } = useQuery({
+        queryKey: ['premiumBioData'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('/premiumBio/getPremiumBio')
+            return res.data
+        }
+    })
+
+    console.log(premiumBioData)
+    // premiumBio/getPremiumBio
 
     return (
         <Box>
@@ -47,11 +63,14 @@ const Home = () => {
                         }}
                     >
                         {
-                            [1, 2, 3, 4, 5, 6, 7, 8].map((item, index) => {
-                                return (<Box key={index} sx={{ gridColumn: { sz: 'span 1' }, display: 'flex', justifyContent: 'center' }}>
-                                    <ProfileCard name='md mitul hossain' />
-                                </Box>)
-                            })
+                            isLoading ? <Spinner />
+                                :
+                                premiumBioData?.map((item, index) => {
+                                    return (<Box key={index} sx={{ gridColumn: { sz: 'span 1' }, display: 'flex', justifyContent: 'center' }}>
+                                        <ProfileCard data={item} />
+                                    </Box>)
+                                })
+
                         }
 
                     </Box>

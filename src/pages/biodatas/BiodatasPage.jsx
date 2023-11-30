@@ -18,6 +18,7 @@ import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { useEffect } from "react";
 
 const selectStyles = {
     control: (base, state) => ({
@@ -36,6 +37,12 @@ const selectStyles = {
 const BiodatasPage = () => {
     const axiosPublic = useAxiosPublic()
     const [biodata, setBioData] = useState([]);
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }, [])
 
     const { data: biodatas = [], isLoading } = useQuery({
         queryKey: ['Allbiodata'],
