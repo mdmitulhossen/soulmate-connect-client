@@ -7,22 +7,24 @@ import ContactBioDataPage from "./ContactBioDataPage";
 import PersonalInfo from "./PersonalInfo";
 import HeaderBreadCrumb from "../../components/breadcrumb/HeaderBreadCrumb";
 import SimilarProfileCard from "../../components/cards/SimilarProfileCard";
-import { NavLink,useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useParams } from 'react-router-dom';
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { useEffect } from "react";
 import Spinner from "../../components/Spinner/Spinner";
 import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 
 const BiodataDetailsPage = () => {
     const navigate = useNavigate()
     const { id } = useParams()
     const axiosPublic = useAxiosPublic()
-    const {user}= useAuth() || {};
+    const queryClient = useQueryClient()
+    const { user } = useAuth() || {};
 
     useEffect(() => {
         window.scrollTo({
@@ -38,19 +40,19 @@ const BiodataDetailsPage = () => {
             return res.data
         }
     })
-    
+
 
 
     const { B_ID, name, email, phone, image, fatherName, motherName, gender, dob, height, weight, occupation, race, presentDivision, parmanentDivision, partnerAge, partnerHeight, partnerWeight, married, age } = biodata || {};
 
-    const { data: biodataByGender = [], isLoading:genderLoading } = useQuery({
+    const { data: biodataByGender = [], isLoading: genderLoading } = useQuery({
         queryKey: ['biodataByGender', gender],
         queryFn: async () => {
             const res = await axiosPublic.get(`/biodata?gender=${gender}`)
             return res.data
         }
     })
-    const { data: isPremiumUser = {}, isLoading:isPremiumLoading } = useQuery({
+    const { data: isPremiumUser = {}, isLoading: isPremiumLoading } = useQuery({
         queryKey: ['isPremiumUser', user?.email],
         queryFn: async () => {
             const res = await axiosPublic.get(`/users/user?email=${user?.email}`)
@@ -58,11 +60,39 @@ const BiodataDetailsPage = () => {
         }
     })
 
-console.log("sdfjksaif===>",isPremiumUser)
 
-    const premium = isPremiumUser?.premium || false;    
-    const favourite = false;
-    if(isLoading || genderLoading || isPremiumLoading) return <Spinner/>
+  const { mutate, isPending } = useMutation({
+    mutationFn: async (loveData) => {
+      return await axiosPublic.put('/users/user', loveData)
+    },
+    onSuccess: (data) => {
+    //   console.log(data)
+      toast.success('love successfully');
+    },
+    onError: () => {
+      toast.error("Something went wrong ! isn't loveed")
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries('isPremiumUser')
+    }
+  })
+
+
+    // console.log("sdfjksaif===>", isPremiumUser)
+    // favouriteBio
+const favouritedata = isPremiumUser?.favouriteBio || [];
+    const handleFavourite = () => {
+        const newData = {
+            email: user?.email,
+            favouriteBio: [...favouritedata, id]
+        }
+        mutate(newData)
+    }
+
+    const premium = isPremiumUser?.premium || false;
+    const favourite = isPremiumUser?.favouriteBio?.includes(id) || false;
+    // const favourite = isPremiumUser?.favouriteBio?.length>0;
+    if (isLoading || genderLoading || isPremiumLoading || isPending) return <Spinner />
     return (
         <Box
             sx={{
@@ -162,7 +192,7 @@ console.log("sdfjksaif===>",isPremiumUser)
                                 {/* Todo: favourite and request btn */}
                                 <Box>
                                     <Button
-                                    disabled={premium}
+                                        disabled={premium}
                                         sx={{
                                             background: '#66451c',
                                             color: '#fff',
@@ -173,18 +203,23 @@ console.log("sdfjksaif===>",isPremiumUser)
                                                 color: '#fff',
                                             },
                                         }}
-                                        onClick={()=>navigate(`/checkout/${B_ID}`)}
+                                        onClick={() => navigate(`/checkout/${B_ID}`)}
                                         component={NavLink}
                                         to='#'
                                         variant='contained'
                                     >
                                         <Typography variant="paragraph"> Request For Contact</Typography>
                                     </Button>
-                                    <IconButton sx={{ ml: 2 }}>
-                                        {
-                                            favourite ? <FavoriteIcon sx={{ color: '#66451c' }} fontSize="large" /> : <FavoriteBorderIcon sx={{ color: '#66451c' }} fontSize="large" />
-                                        }
-                                    </IconButton>
+                                    {
+                                        favourite ?
+                                            <IconButton sx={{ ml: 2 }}>
+                                                <FavoriteIcon sx={{ color: '#66451c' }} fontSize="large" />
+                                            </IconButton>
+                                            :
+                                            <IconButton onClick={handleFavourite} sx={{ ml: 2 }}>
+                                                <FavoriteBorderIcon sx={{ color: '#66451c' }} fontSize="large" />
+                                            </IconButton>
+                                    }
                                 </Box>
                             </Box>
                             {/* Some card age,height,city,work */}
@@ -272,7 +307,7 @@ console.log("sdfjksaif===>",isPremiumUser)
                             >
                                     PERSONAL INFORMATION
                                 </Typography>
-                                <PersonalInfo data={biodata}/>
+                                <PersonalInfo data={biodata} />
                             </Box>
                         </Box>
                     </Box>
@@ -312,7 +347,7 @@ console.log("sdfjksaif===>",isPremiumUser)
                                     <SimilarProfileCard key={item.B_ID} data={item} />
                                 ))
                             }
-                            
+
                         </Box>
                     </Box>
                 </Box>
