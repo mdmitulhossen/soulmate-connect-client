@@ -12,6 +12,7 @@ import * as React from 'react';
 import toast from 'react-hot-toast';
 import Spinner from '../../components/Spinner/Spinner';
 import useAxiosPublic from '../../hooks/useAxiosPublic';
+import DataNotFound from '../DataNotFound';
 
 const columns = [
     { id: 'userName', label: 'User Name', minWidth: 170, align: 'center' },
@@ -127,59 +128,66 @@ const ManageUser = () => {
                 User Manage
             </Typography>
             <Paper sx={{ width: '100%', overflow: 'auto', border: '1px dashed #000' }}>
-                <TableContainer sx={{ maxHeight: 440 }}>
-                    <Table stickyHeader aria-label="sticky table">
-                        <TableHead sx={{ bgColor: 'red' }}>
-                            <TableRow>
-                                {columns.map((column) => (
-                                    <TableCell
-                                        key={column.id}
-                                        align={column.align}
-                                        style={{ minWidth: column.minWidth, backgroundColor: '#f2f2f2', fontWeight: 'bold' }}
-                                    >
-                                        {column.label}
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row, rowIndex) => {
-                                    return (
-                                        <TableRow hover role="checkbox" tabIndex={-1} key={rowIndex}>
-                                            {columns.map((column) => {
-                                                const value = row[column.id];
+                {
+                    userData?.length === 0 ? <DataNotFound />
+                        :
+                        <>
+                            <TableContainer sx={{ maxHeight: 440 }}>
+                                <Table stickyHeader aria-label="sticky table">
+                                    <TableHead sx={{ bgColor: 'red' }}>
+                                        <TableRow>
+                                            {columns.map((column) => (
+                                                <TableCell
+                                                    key={column.id}
+                                                    align={column.align}
+                                                    style={{ minWidth: column.minWidth, backgroundColor: '#f2f2f2', fontWeight: 'bold' }}
+                                                >
+                                                    {column.label}
+                                                </TableCell>
+                                            ))}
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {rows
+                                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                            .map((row, rowIndex) => {
                                                 return (
-                                                    <TableCell key={column.id} align={column.align}>
-                                                        {column.id === 'action' ? (
-                                                            <div>
-                                                                <Chip disabled={row?.admin} onClick={() => handleMakeAdminClick(row)} label={row?.admin ? "Admin" : "Make Admin"} color="primary" size='small' style={{ marginRight: 5 }} />
-                                                                <Chip disabled={row?.premium} onClick={() => handleMakePremiumClick(row)} label={row?.premium ? "Premium" : "Make Premium"} color="primary" size='small' style={{ marginRight: 5 }} />
-                                                                {/* TODO:===== */}
-                                                                {/* <Chip onClick={() => handleDeleteClick(row)} label="Delete" color="secondary" size='small' /> */}
-                                                            </div>
-                                                        ) : (
-                                                            column.format && typeof value === 'number' ? column.format(value) : value
-                                                        )}
-                                                    </TableCell>
+                                                    <TableRow hover role="checkbox" tabIndex={-1} key={rowIndex}>
+                                                        {columns.map((column) => {
+                                                            const value = row[column.id];
+                                                            return (
+                                                                <TableCell key={column.id} align={column.align}>
+                                                                    {column.id === 'action' ? (
+                                                                        <div>
+                                                                            <Chip disabled={row?.admin} onClick={() => handleMakeAdminClick(row)} label={row?.admin ? "Admin" : "Make Admin"} color="primary" size='small' style={{ marginRight: 5 }} />
+                                                                            <Chip disabled={row?.premium} onClick={() => handleMakePremiumClick(row)} label={row?.premium ? "Premium" : "Make Premium"} color="primary" size='small' style={{ marginRight: 5 }} />
+                                                                            {/* TODO:===== */}
+                                                                            {/* <Chip onClick={() => handleDeleteClick(row)} label="Delete" color="secondary" size='small' /> */}
+                                                                        </div>
+                                                                    ) : (
+                                                                        column.format && typeof value === 'number' ? column.format(value) : value
+                                                                    )}
+                                                                </TableCell>
+                                                            );
+                                                        })}
+                                                    </TableRow>
                                                 );
                                             })}
-                                        </TableRow>
-                                    );
-                                })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <TablePagination
+                                rowsPerPageOptions={[10, 25, 100]}
+                                component="div"
+                                count={rows.length}
+                                rowsPerPage={rowsPerPage}
+                                page={page}
+                                onPageChange={handleChangePage}
+                                onRowsPerPageChange={handleChangeRowsPerPage}
+                            />
+                        </>
+                }
+
             </Paper>
         </div>
     );
