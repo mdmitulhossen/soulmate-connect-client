@@ -212,8 +212,8 @@ const LoginPage = () => {
                                 onSubmit={handleLogin}
                             >
 
-                                <TextField color="warning" fullWidth size="small" id="outlined-basic" label="Email" variant="outlined" name="email" placeholder="Enter Your Email" />
-                                <TextField color="warning" fullWidth size="small" id="outlined-basic" label="Password" variant="outlined" name="password" placeholder="Enter Your Password" />
+                                <TextField autoComplete="on" color="warning" fullWidth size="small" id="outlined-basic" label="Email" variant="outlined" name="email" placeholder="Enter Your Email" />
+                                <TextField type="password" autoComplete="on" color="warning" fullWidth size="small" id="outlined-basic" label="Password" variant="outlined" name="password" placeholder="Enter Your Password" />
 
                                 <Button variant="contained" color="warning" size="large" type="submit">
                                 {loading ? <ButtonLoader size={12} color='#fff' /> : "Sign In"}
