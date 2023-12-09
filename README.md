@@ -11,3 +11,5 @@
 - Role-based access controls for secure information handling.
 - User feedback mechanism for sharing experiences.
 - Analytics tools for monitoring platform activity.(Admin Dashboard)
+
+### Technologies: React JS | MUI | Express JS | mongoose | Firebase |Stripe | apex charts | Lottie-react
