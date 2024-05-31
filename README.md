@@ -13,3 +13,8 @@
 - Analytics tools for monitoring platform activity.(Admin Dashboard)
 
 ### Technologies: React JS | MUI | Express JS | mongoose | Firebase |Stripe | apex charts | Lottie-react
+
+
+#### For Admin
+user: admin@gmail.com
+pass: 123456
